@@ -1,44 +1,8 @@
-/* ByggePiloten forside sketch — immersive scroll-depth + BP theme */
+/* ByggePiloten forside sketch — light scroll depth, no Three.js (v1 spirit) */
 (function () {
   "use strict";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* —— Theme toggle —— */
-  function initTheme() {
-    const btn = document.getElementById("themeToggle");
-    const root = document.documentElement;
-    try {
-      if (localStorage.getItem("bp-sketch-dark") === "1") {
-        root.classList.add("dark");
-      }
-    } catch (_) {}
-    if (!btn) return;
-    btn.addEventListener("click", () => {
-      root.classList.toggle("dark");
-      try {
-        localStorage.setItem(
-          "bp-sketch-dark",
-          root.classList.contains("dark") ? "1" : "0"
-        );
-      } catch (_) {}
-    });
-  }
-
-  /* —— Page scroll progress —— */
-  function initScrollProgress() {
-    const bar = document.getElementById("scrollProgress");
-    if (!bar) return;
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.width = pct.toFixed(2) + "%";
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    onScroll();
-  }
 
   /* —— Sticky narrative beats —— */
   function initStoryBeats() {
@@ -50,7 +14,7 @@
     let active = 0;
 
     function setBeat(i) {
-      if (i === active && cards[i] && cards[i].classList.contains("is-active")) return;
+      if (i === active && cards[i].classList.contains("is-active")) return;
       active = i;
       cards.forEach((c, idx) => c.classList.toggle("is-active", idx === i));
       dots.forEach((d, idx) => d.classList.toggle("is-on", idx === i));
@@ -75,11 +39,11 @@
     beats.forEach((b) => io.observe(b));
   }
 
-  /* —— Layered parallax —— */
+  /* —— Layered parallax on scroll —— */
   function initParallax() {
     if (reduceMotion) return;
 
-    const scenes = document.querySelectorAll(".scene");
+    const scenes = document.querySelectorAll(".scene, .flow-hero");
     const layers = [];
 
     scenes.forEach((scene) => {
@@ -118,13 +82,10 @@
     update();
   }
 
-  /* —— Soft ambient fog particles —— */
+  /* —— Soft ambient fog particles (BP sky tint) —— */
   function initFog() {
     const canvas = document.getElementById("fog");
-    if (!canvas || reduceMotion) {
-      if (canvas) canvas.style.display = "none";
-      return;
-    }
+    if (!canvas || reduceMotion) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -133,7 +94,7 @@
     let h = 0;
     let raf = 0;
     const particles = [];
-    const COUNT = 26;
+    const COUNT = 28;
 
     function resize() {
       const rect = canvas.getBoundingClientRect();
@@ -148,10 +109,10 @@
     function spawn(p) {
       p.x = Math.random() * w;
       p.y = Math.random() * h;
-      p.r = 14 + Math.random() * 52;
-      p.a = 0.025 + Math.random() * 0.06;
-      p.vx = (Math.random() - 0.5) * 0.14;
-      p.vy = -0.035 - Math.random() * 0.07;
+      p.r = 12 + Math.random() * 48;
+      p.a = 0.03 + Math.random() * 0.07;
+      p.vx = (Math.random() - 0.5) * 0.15;
+      p.vy = -0.04 - Math.random() * 0.08;
     }
 
     function initParticles() {
@@ -165,19 +126,13 @@
 
     function frame() {
       ctx.clearRect(0, 0, w, h);
-      const dark = document.documentElement.classList.contains("dark");
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
         if (p.y + p.r < 0 || p.x < -p.r || p.x > w + p.r) spawn(p);
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-        if (dark) {
-          g.addColorStop(0, `rgba(77, 154, 237,${p.a * 0.7})`);
-          g.addColorStop(1, "rgba(77, 154, 237,0)");
-        } else {
-          g.addColorStop(0, `rgba(255,255,255,${p.a})`);
-          g.addColorStop(1, "rgba(255,255,255,0)");
-        }
+        g.addColorStop(0, `rgba(232,243,255,${p.a})`);
+        g.addColorStop(1, "rgba(232,243,255,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -190,7 +145,7 @@
     initParticles();
     frame();
 
-    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("resize", () => resize(), { passive: true });
 
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
@@ -201,51 +156,70 @@
     });
   }
 
-  /* —— Dual opret-flow demos —— */
-  function initDemos() {
-    const state = { privat: 0, firma: 0 };
-
-    function show(kind, index) {
-      const panel = document.querySelector(`.demo-panel[data-demo="${kind}"]`);
-      if (!panel) return;
-      const steps = panel.querySelectorAll(".demo-steps > li");
-      if (!steps.length) return;
-      const i = ((index % steps.length) + steps.length) % steps.length;
-      state[kind] = i;
-      steps.forEach((li, idx) => li.classList.toggle("is-active", idx === i));
-    }
-
-    document.querySelectorAll("[data-demo-next]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const kind = btn.getAttribute("data-demo-next");
-        show(kind, state[kind] + 1);
-      });
-    });
-    document.querySelectorAll("[data-demo-prev]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const kind = btn.getAttribute("data-demo-prev");
-        show(kind, state[kind] - 1);
-      });
-    });
-  }
-
-  /* —— Soft header shadow —— */
+  /* —— Soft header shadow on scroll —— */
   function initHeader() {
     const header = document.querySelector(".site-header");
     if (!header) return;
     const onScroll = () => {
       header.style.boxShadow =
-        window.scrollY > 8 ? "0 6px 24px rgba(12, 25, 41, 0.07)" : "none";
+        window.scrollY > 8 ? "0 6px 24px rgba(12,25,41,0.06)" : "none";
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
   }
 
-  initTheme();
-  initScrollProgress();
+  /* —— Mock multi-step flow (sketch only) —— */
+  function initFlow() {
+    const root = document.querySelector("[data-flow]");
+    if (!root) return;
+
+    const panels = Array.from(root.querySelectorAll(".flow-panel"));
+    const steps = Array.from(root.querySelectorAll(".flow-steps li"));
+    const nextBtns = root.querySelectorAll("[data-flow-next]");
+    const prevBtns = root.querySelectorAll("[data-flow-prev]");
+    let i = 0;
+
+    function show(n) {
+      i = Math.max(0, Math.min(n, panels.length - 1));
+      panels.forEach((p, idx) => p.classList.toggle("is-active", idx === i));
+      steps.forEach((s, idx) => {
+        s.classList.toggle("is-on", idx === i);
+        s.classList.toggle("is-done", idx < i);
+      });
+    }
+
+    nextBtns.forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        show(i + 1);
+      })
+    );
+    prevBtns.forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        show(i - 1);
+      })
+    );
+
+    root.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const group = chip.closest(".chip-row");
+        if (!group) return;
+        if (group.dataset.multi === "true") {
+          chip.classList.toggle("is-selected");
+        } else {
+          group.querySelectorAll(".chip").forEach((c) => c.classList.remove("is-selected"));
+          chip.classList.add("is-selected");
+        }
+      });
+    });
+
+    show(0);
+  }
+
   initStoryBeats();
   initParallax();
   initFog();
-  initDemos();
   initHeader();
+  initFlow();
 })();

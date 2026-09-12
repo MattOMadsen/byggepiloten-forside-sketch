@@ -7,106 +7,86 @@
   <title>SKETCH — ByggePiloten forside</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bp-mesh-bg">
+<body>
   <div class="sketch-banner" role="status">
     <span>SKETCH — ikke live ByggePiloten</span>
-    <span class="sketch-banner__hint">Immersiv scroll-dybde · BP-tema · prototype</span>
+    <span class="sketch-banner__hint">Scroll-dybde · baseret på v1 (be6a62b) · BP-farver</span>
   </div>
 
-  <header class="site-header bp-glass">
-    <div class="site-header__inner">
-      <a class="brand" href="#top" aria-label="ByggePiloten">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2z"/>
-            <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/>
-            <path d="M4 15h16"/>
-          </svg>
-        </span>
-        <span class="brand__name">ByggePiloten</span>
-      </a>
-      <div class="site-header__actions">
-        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Skift tema" title="Skift lys/mørk">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <a class="btn btn--login btn--sm" href="https://byggepiloten.dk/login">Log ind</a>
-        <a class="btn btn--secondary btn--sm hide-sm" href="https://byggepiloten.dk/opret/firma">Firma</a>
-        <a class="btn btn--primary btn--sm hide-sm" href="https://byggepiloten.dk/opret/privat">Privat</a>
-      </div>
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="ByggePiloten">
+      <span class="logo-mark" aria-hidden="true"></span>
+      ByggePiloten
+    </a>
+    <nav class="site-nav" aria-label="Sketch-sider">
+      <a class="nav-link is-active" href="index.html">Forside</a>
+      <a class="nav-link" href="opret-privat.html">Privat</a>
+      <a class="nav-link" href="opret-firma.html">Firma</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn--ghost btn--sm hide-sm" href="opret-firma.html">Firma</a>
+      <a class="btn btn--sm" href="opret-privat.html">Skriv opgaven</a>
     </div>
   </header>
 
-  <!-- Sticky scroll progress -->
-  <div class="scroll-progress" aria-hidden="true">
-    <div class="scroll-progress__bar" id="scrollProgress"></div>
-  </div>
-
   <main id="top">
-    <!-- CINEMATIC HERO — full viewport, layered depth -->
+    <!-- HERO with layered depth -->
     <section class="hero scene" data-scene="hero">
       <div class="parallax" aria-hidden="true">
-        <div class="layer layer--sky" data-depth="0.04"></div>
-        <div class="layer layer--grid" data-depth="0.08"></div>
-        <div class="layer layer--blob-blue" data-depth="0.12"></div>
-        <div class="layer layer--blob-accent" data-depth="0.18"></div>
-        <div class="layer layer--geo-far" data-depth="0.26"></div>
-        <div class="layer layer--geo-mid" data-depth="0.38"></div>
-        <div class="layer layer--geo-near" data-depth="0.52"></div>
+        <div class="layer layer--sky" data-depth="0.05"></div>
+        <div class="layer layer--haze" data-depth="0.12"></div>
+        <div class="layer layer--hills-far" data-depth="0.22"></div>
+        <div class="layer layer--hills-mid" data-depth="0.38"></div>
+        <div class="layer layer--ground" data-depth="0.55"></div>
         <canvas class="fog-canvas" id="fog" width="800" height="450"></canvas>
       </div>
-
       <div class="hero__content">
-        <p class="eyebrow">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>
-          Nyt forside-koncept · sketch
-        </p>
-        <h1>
-          Fra opgave til bud<br />
-          — <span class="grad-text">uden støj</span>
-        </h1>
+        <p class="eyebrow">Hvor private finder håndværkere</p>
+        <h1>Byg noget ordentligt.<br />Få bud — <em>gratis</em>.</h1>
         <p class="lede">
-          En immersiv markedsplads for private og håndværkere.
-          Beskriv opgaven, få bud fra lokale firmaer — gratis, uforpligtende, ingen abonnement.
+          Beskriv din opgave med dine egne ord. Lokale firmaer byder —
+          uforpligtende, uden abonnement.
         </p>
-        <div class="cta-row">
-          <a class="btn btn--primary btn--lg" href="https://byggepiloten.dk/opret/privat">
-            Opret gratis opgave
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
-          </a>
-          <a class="btn btn--secondary btn--lg" href="https://byggepiloten.dk/opret/firma">Jeg er håndværkerfirma</a>
+        <div class="hero__ctas">
+          <a class="btn btn--primary" href="opret-privat.html">Skriv opgaven</a>
+          <a class="btn btn--ghost" href="opret-firma.html">Jeg er håndværkerfirma</a>
         </div>
-        <p class="micro">Du vælger selv · ingen binding · byggepiloten.dk</p>
+        <p class="micro">Gratis · uforpligtende · ingen abonnement</p>
       </div>
-
       <div class="scroll-cue" aria-hidden="true">
-        <span>Scroll historien</span>
+        <span>Scroll</span>
         <div class="scroll-cue__line"></div>
       </div>
     </section>
 
-    <!-- STICKY NARRATIVE — problem → skriv → bud / jobs -->
-    <section class="story" aria-label="Scroll-fortælling">
+    <!-- Sticky narrative: problem → skriv → få bud -->
+    <section class="story" aria-label="Sådan virker det">
       <div class="story__sticky">
         <div class="story__visual" data-beat="0">
           <div class="card-stack">
             <article class="beat-card beat-card--problem is-active" data-for="0">
-              <span class="beat-step">01</span>
+              <div class="beat-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2"/><path d="M22 38c3-6 8-10 10-10s7 4 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="26" r="2.5" fill="currentColor"/><circle cx="40" cy="26" r="2.5" fill="currentColor"/></svg>
+              </div>
               <h2>Problemet</h2>
-              <p>At finde den rigtige håndværker føles ofte som ringeture, uigennemskuelige tilbud og for meget støj — mens firmaer jager leads, der ikke matcher.</p>
+              <p>Du skal have malet, lagt fliser eller skiftet et tag. Ringeture og uigennemskuelige tilbud tager tid — og tilliden følger ikke altid med.</p>
             </article>
             <article class="beat-card beat-card--skriv" data-for="1">
-              <span class="beat-step">02</span>
+              <div class="beat-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="10" width="36" height="44" rx="4" stroke="currentColor" stroke-width="2"/><path d="M22 22h20M22 30h16M22 38h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M40 44l6 2-2 6 8-10-6-2-6 4z" fill="currentColor" opacity=".85"/></svg>
+              </div>
               <h2>Skriv opgaven</h2>
-              <p>Beskriv hvad der skal laves — guidet, på få minutter. Én beskrivelse når frem til firmaer, der faktisk laver den type arbejde.</p>
+              <p>Fortæl hvad der skal laves — i det sprog du bruger derhjemme. Ingen skemaer, der føles som en ansøgning.</p>
             </article>
             <article class="beat-card beat-card--bud" data-for="2">
-              <span class="beat-step">03</span>
-              <h2>Få bud · find jobs</h2>
-              <p>Private modtager bud og vælger selv. Firmaer ser relevante opgaver i deres radius — uden abonnement, uden spam.</p>
+              <div class="beat-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none"><path d="M12 40V24l20-10 20 10v16l-20 10-20-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M32 14v36M12 24l20 10 20-10" stroke="currentColor" stroke-width="2"/><circle cx="48" cy="18" r="10" fill="var(--bp-accent)" stroke="var(--bp-ink)" stroke-width="1.5"/><text x="48" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="var(--bp-ink)">✓</text></svg>
+              </div>
+              <h2>Få bud</h2>
+              <p>Firmaer i dit område svarer med bud. Det er gratis og uforpligtende at modtage dem — og du vælger selv, hvem du vil snakke videre med.</p>
             </article>
           </div>
           <div class="beat-progress" aria-hidden="true">
@@ -116,225 +96,78 @@
           </div>
         </div>
       </div>
-
       <div class="story__rail">
         <div class="story__beat" data-beat="0">
-          <p class="rail-label">01 · Problem</p>
-          <h3>Markedets støj er reel</h3>
-          <p>Anbefalinger fra naboen er guld — men når opgaven er specifik, bliver markedet hurtigt uoverskueligt. Private og firmaer mister tid på hinanden.</p>
+          <p class="rail-label">01</p>
+          <h3>Det er svært at finde den rigtige</h3>
+          <p>Anbefalinger fra naboen er guld værd — men når opgaven er specifik, bliver markedet hurtigt uoverskueligt.</p>
         </div>
         <div class="story__beat" data-beat="1">
-          <p class="rail-label">02 · Skriv opgave</p>
+          <p class="rail-label">02</p>
           <h3>Én beskrivelse er nok</h3>
-          <p>Vælg fag og type. Wizarden stiller de rigtige spørgsmål — areal, antal, meter. Du slipper for at gentage dig selv.</p>
-          <div class="rail-ctas">
-            <a class="btn btn--primary" href="https://byggepiloten.dk/opret/privat">Opret gratis opgave</a>
-            <a class="btn btn--ghost" href="#demo">Se demo ↓</a>
-          </div>
+          <p>Skriv opgaven én gang. Vi sørger for, at den når frem til firmaer, der faktisk laver den slags arbejde.</p>
+          <a class="btn btn--primary" href="opret-privat.html">Skriv opgaven</a>
         </div>
         <div class="story__beat" data-beat="2">
-          <p class="rail-label">03 · Bud &amp; jobs</p>
-          <h3>To sider — samme platform</h3>
-          <p>Private sammenligner bud og vælger i ro og mag. Firmaer finder jobs inden for kørselsradius eller region — gennemsigtigt og uforpligtende.</p>
-          <div class="rail-ctas">
-            <a class="btn btn--primary" href="https://byggepiloten.dk/opret/privat">Privat</a>
-            <a class="btn btn--accent" href="https://byggepiloten.dk/opret/firma">Firma</a>
-          </div>
+          <p class="rail-label">03</p>
+          <h3>Bud — gratis og uforpligtende</h3>
+          <p>Du betaler ikke for at få tilbud. Ingen abonnement. Vælg i ro og mag, eller lad være.</p>
         </div>
       </div>
     </section>
 
-    <!-- DEPTH STRIP — dual audience -->
-    <section class="split-depth scene" data-scene="split">
-      <div class="parallax parallax--soft" aria-hidden="true">
-        <div class="layer layer--sky layer--dusk" data-depth="0.06"></div>
-        <div class="layer layer--blob-blue" data-depth="0.14"></div>
-        <div class="layer layer--blob-accent" data-depth="0.2"></div>
-      </div>
-      <div class="split-depth__grid">
-        <a class="depth-card depth-card--privat" href="https://byggepiloten.dk/opret/privat">
-          <span class="depth-card__badge">Privat</span>
-          <h2>Få bud på din opgave</h2>
-          <p>Gratis at oprette. Uforpligtende. Du vælger selv, om du vil acceptere et tilbud — ingen abonnement, ingen binding.</p>
-          <span class="depth-card__cta">Kom i gang →</span>
-        </a>
-        <a class="depth-card depth-card--firma" href="https://byggepiloten.dk/opret/firma">
-          <span class="depth-card__badge depth-card__badge--accent">Firma</span>
-          <h2>Find jobs i dit område</h2>
-          <p>Se opgaver inden for din radius. Afgiv bud direkte. Intet abonnement — formidlingsvilkår står i vilkårene.</p>
-          <span class="depth-card__cta">Opret firmaprofil →</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- DEMO PANELS -->
-    <section class="demos" id="demo" aria-label="Demo af opret-flows">
-      <div class="demos__head">
-        <p class="eyebrow eyebrow--plain">In-page demo</p>
-        <h2>Prøv begge flows</h2>
-        <p class="demos__sub">Statiske mock-trin i sketchen. De rigtige flows ligger på byggepiloten.dk.</p>
-      </div>
-      <div class="demos__grid">
-        <div class="demo-panel demo-panel--privat" data-demo="privat">
-          <div class="demo-panel__top">
-            <span class="demo-badge demo-badge--blue">Privat</span>
-            <h3>Opret opgave</h3>
-            <p>Beskriv → estimat → bud</p>
-          </div>
-          <ol class="demo-steps" id="demoPrivatSteps">
-            <li class="is-active" data-step="0">
-              <strong>1. Beskriv</strong>
-              <span>«Badeværelse, ca. 6 m², fliser + VVS»</span>
-              <div class="demo-mock">
-                <div class="mock-field">Fag: Murer / VVS</div>
-                <div class="mock-field">Type: Badeværelse</div>
-                <div class="mock-field mock-field--tall">Beskrivelse…</div>
-              </div>
-            </li>
-            <li data-step="1">
-              <strong>2. Estimat</strong>
-              <span>Vejledende prisestimat (ikke bindende)</span>
-              <div class="demo-mock">
-                <div class="mock-estimate">
-                  <span>Vejledende</span>
-                  <em>45–65.000 kr</em>
-                  <small>inkl. moms · kun vejledende</small>
-                </div>
-              </div>
-            </li>
-            <li data-step="2">
-              <strong>3. Modtag bud</strong>
-              <span>Lokale firmaer byder — du vælger selv</span>
-              <div class="demo-mock">
-                <div class="mock-bid"><b>Nordisk Mur</b><span>52.400 kr</span></div>
-                <div class="mock-bid"><b>Østjysk VVS</b><span>48.900 kr</span></div>
-                <div class="mock-bid"><b>Byg &amp; Bad</b><span>55.000 kr</span></div>
-              </div>
-            </li>
-          </ol>
-          <div class="demo-nav">
-            <button type="button" class="btn btn--ghost btn--sm" data-demo-prev="privat">Forrige</button>
-            <button type="button" class="btn btn--secondary btn--sm" data-demo-next="privat">Næste trin</button>
-          </div>
-          <a class="btn btn--primary demo-cta" href="https://byggepiloten.dk/opret/privat">Åbn rigtigt privat-flow →</a>
-        </div>
-
-        <div class="demo-panel demo-panel--firma" data-demo="firma">
-          <div class="demo-panel__top">
-            <span class="demo-badge demo-badge--accent">Firma</span>
-            <h3>Opret firmaprofil</h3>
-            <p>Profil → radius → byd</p>
-          </div>
-          <ol class="demo-steps" id="demoFirmaSteps">
-            <li class="is-active" data-step="0">
-              <strong>1. Profil</strong>
-              <span>Fag, kontakt og præsentation</span>
-              <div class="demo-mock">
-                <div class="mock-field">Firmanavn</div>
-                <div class="mock-field">Fag: Tømrer, Tagdækker</div>
-                <div class="mock-field">CVR / kontakt</div>
-              </div>
-            </li>
-            <li data-step="1">
-              <strong>2. Radius</strong>
-              <span>Kørselsradius eller region</span>
-              <div class="demo-mock">
-                <div class="mock-radius">
-                  <div class="mock-map" aria-hidden="true"></div>
-                  <span>Arbejdsradius: 40 km · Østjylland</span>
-                </div>
-              </div>
-            </li>
-            <li data-step="2">
-              <strong>3. Find jobs</strong>
-              <span>Se opgaver i området og afgiv bud</span>
-              <div class="demo-mock">
-                <div class="mock-task"><b>Terrasse 24 m²</b><span>Aarhus N</span></div>
-                <div class="mock-task"><b>Tagpap garage</b><span>Risskov</span></div>
-                <div class="mock-note">Intet abonnement — formidlingsvilkår står i vilkårene</div>
-              </div>
-            </li>
-          </ol>
-          <div class="demo-nav">
-            <button type="button" class="btn btn--ghost btn--sm" data-demo-prev="firma">Forrige</button>
-            <button type="button" class="btn btn--secondary btn--sm" data-demo-next="firma">Næste trin</button>
-          </div>
-          <a class="btn btn--accent demo-cta" href="https://byggepiloten.dk/opret/firma">Åbn rigtigt firma-flow →</a>
-        </div>
+    <!-- Atmosphere strip -->
+    <section class="atmosphere">
+      <div class="atmosphere__inner">
+        <blockquote>
+          <p>«Vi bygger ikke hype. Vi bygger en markedsplads, hvor private og håndværkere mødes — jordnært og uden unødvendigt støj.»</p>
+        </blockquote>
+        <ul class="pillars">
+          <li>
+            <strong>Lokalt</strong>
+            <span>Firmaer i nærheden af dig</span>
+          </li>
+          <li>
+            <strong>Gratis</strong>
+            <span>Uforpligtende · ingen abonnement</span>
+          </li>
+          <li>
+            <strong>Din opgave</strong>
+            <span>Du styrer tempoet</span>
+          </li>
+        </ul>
       </div>
     </section>
 
-    <!-- TRUST PILLARS -->
-    <section class="pillars-band">
-      <ul class="pillars">
-        <li>
-          <strong>Gratis for private</strong>
-          <span>Ingen abonnement · uforpligtende</span>
-        </li>
-        <li>
-          <strong>Lokale firmaer</strong>
-          <span>Radius eller region — relevante bud</span>
-        </li>
-        <li>
-          <strong>Du vælger selv</strong>
-          <span>Accepter kun det tilbud, der passer</span>
-        </li>
-        <li>
-          <strong>Gennemsigtigt</strong>
-          <span>Bud med moms · klare vilkår</span>
-        </li>
-      </ul>
-    </section>
-
-    <!-- FINAL CTA BAND with depth -->
+    <!-- Soft depth CTA band -->
     <section class="cta-band scene" data-scene="cta">
       <div class="parallax parallax--short" aria-hidden="true">
         <div class="layer layer--sky layer--dusk" data-depth="0.08"></div>
-        <div class="layer layer--geo-far" data-depth="0.2"></div>
-        <div class="layer layer--geo-mid" data-depth="0.32"></div>
+        <div class="layer layer--hills-far" data-depth="0.2"></div>
+        <div class="layer layer--hills-mid" data-depth="0.35"></div>
       </div>
       <div class="cta-band__content">
-        <h2>Klar til at komme i gang?</h2>
-        <p>Det tager et par minutter. Gratis, uforpligtende — du vælger selv.</p>
-        <div class="cta-row cta-row--center">
-          <a class="btn btn--primary btn--lg" href="https://byggepiloten.dk/opret/privat">Opret gratis opgave</a>
-          <a class="btn btn--secondary btn--lg" href="https://byggepiloten.dk/opret/firma">Jeg er håndværkerfirma</a>
+        <h2>Klar til at beskrive opgaven?</h2>
+        <p>Det tager et par minutter. Du får bud uden binding og uden abonnement.</p>
+        <div class="hero__ctas hero__ctas--center">
+          <a class="btn btn--primary btn--lg" href="opret-privat.html">Skriv opgaven</a>
+          <a class="btn btn--ghost btn--lg" href="opret-firma.html">Firma-onboarding</a>
         </div>
-        <p class="micro">Går til byggepiloten.dk · sketch CTA</p>
+        <p class="micro">Sketch-sider · live site: <a href="https://byggepiloten.dk">byggepiloten.dk</a></p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__inner">
-      <a class="brand brand--sm" href="https://byggepiloten.dk/">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2z"/>
-            <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/>
-            <path d="M4 15h16"/>
-          </svg>
-        </span>
-        <span class="brand__name">ByggePiloten</span>
-      </a>
-      <p class="footer-copy">© 2026 ByggePiloten · immersiv forside-sketch</p>
-      <nav class="footer-nav">
-        <a href="https://byggepiloten.dk/login">Log ind</a>
-        <a href="https://byggepiloten.dk/opret/privat">Privat</a>
-        <a href="https://byggepiloten.dk/opret/firma">Firma</a>
-        <a href="https://byggepiloten.dk/guide">Guide</a>
-      </nav>
-    </div>
+    <p><strong>ByggePiloten</strong> — sketch af forside med scroll-dybde</p>
+    <nav class="footer-nav" aria-label="Sketch-navigation">
+      <a href="index.html">Forside</a>
+      <a href="opret-privat.html">Opret privat</a>
+      <a href="opret-firma.html">Opret firma</a>
+      <a href="https://byggepiloten.dk">Live site</a>
+    </nav>
+    <p class="muted">Ikke live site · baseret på commit be6a62b + BP-tema</p>
   </footer>
-
-  <div class="mobile-bar" role="navigation" aria-label="Hurtig handling">
-    <div class="mobile-bar__row">
-      <a class="btn btn--login" href="https://byggepiloten.dk/login">Log ind</a>
-      <a class="btn btn--primary" href="https://byggepiloten.dk/opret/privat">Privat</a>
-    </div>
-    <a class="btn btn--secondary mobile-bar__firma" href="https://byggepiloten.dk/opret/firma">Jeg er håndværkerfirma</a>
-  </div>
-  <div class="mobile-bar-spacer" aria-hidden="true"></div>
 
   <script src="script.js"></script>
 </body>

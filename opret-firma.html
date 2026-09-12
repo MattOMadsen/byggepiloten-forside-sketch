@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>SKETCH — Opret firma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-firma">
+  <div class="sketch-banner" role="status">
+    <span>SKETCH — ikke live ByggePiloten</span>
+    <span class="sketch-banner__hint">Firma-onboarding · mock · ingen backend</span>
+  </div>
+
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="ByggePiloten">
+      <span class="logo-mark" aria-hidden="true"></span>
+      ByggePiloten
+    </a>
+    <nav class="site-nav" aria-label="Sketch-sider">
+      <a class="nav-link" href="index.html">Forside</a>
+      <a class="nav-link" href="opret-privat.html">Privat</a>
+      <a class="nav-link is-active" href="opret-firma.html">Firma</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn--ghost btn--sm hide-sm" href="opret-privat.html">Privat</a>
+      <a class="btn btn--sm" href="opret-firma.html">Firma</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="flow-hero scene" data-scene="flow">
+      <div class="parallax parallax--short" aria-hidden="true">
+        <div class="layer layer--sky layer--dusk" data-depth="0.06"></div>
+        <div class="layer layer--haze" data-depth="0.14"></div>
+        <div class="layer layer--hills-far" data-depth="0.24"></div>
+        <div class="layer layer--hills-mid" data-depth="0.36"></div>
+      </div>
+      <div class="flow-hero__content">
+        <p class="eyebrow">Firma</p>
+        <h1>Opret firmaprofil</h1>
+        <p class="lede">
+          Sketch af onboarding for håndværkerfirmaer — samme dybde og sprog som forsiden.
+          Ingen rigtig oprettelse her.
+        </p>
+      </div>
+    </section>
+
+    <div class="flow-shell">
+      <div class="flow-card" data-flow="firma">
+        <ol class="flow-steps" aria-label="Trin">
+          <li class="is-on">1. Firma</li>
+          <li>2. Fag</li>
+          <li>3. Område</li>
+          <li>4. Klar</li>
+        </ol>
+
+        <div class="flow-panel is-active" data-step="0">
+          <h2>Om firmaet</h2>
+          <p class="hint">Grundoplysninger — mock-felter.</p>
+          <div class="field">
+            <label for="f-name">Firmanavn</label>
+            <input id="f-name" type="text" value="Nordisk Mur ApS" readonly />
+          </div>
+          <div class="field">
+            <label for="f-cvr">CVR</label>
+            <input id="f-cvr" type="text" value="12345678" readonly />
+          </div>
+          <div class="field">
+            <label for="f-mail">Firma-e-mail</label>
+            <input id="f-mail" type="email" value="kontakt@nordiskmur.dk" readonly />
+          </div>
+          <div class="flow-actions">
+            <a class="btn btn--ghost" href="index.html">← Forside</a>
+            <button type="button" class="btn btn--primary" data-flow-next>Næste</button>
+          </div>
+        </div>
+
+        <div class="flow-panel" data-step="1">
+          <h2>Hvilke fag dækker I?</h2>
+          <p class="hint">Vælg én eller flere (sketch).</p>
+          <div class="chip-row" data-multi="true" role="group" aria-label="Fag">
+            <button type="button" class="chip is-selected">Murer</button>
+            <button type="button" class="chip is-selected">Fliser</button>
+            <button type="button" class="chip">Tømrer</button>
+            <button type="button" class="chip">Maler</button>
+            <button type="button" class="chip">VVS</button>
+            <button type="button" class="chip">El</button>
+          </div>
+          <div class="flow-actions">
+            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
+            <button type="button" class="btn btn--primary" data-flow-next>Næste</button>
+          </div>
+        </div>
+
+        <div class="flow-panel" data-step="2">
+          <h2>Hvor arbejder I?</h2>
+          <p class="hint">Område og radius — til lokale opgaver.</p>
+          <div class="field">
+            <label for="f-zip">Base-postnummer</label>
+            <input id="f-zip" type="text" value="5000" readonly />
+          </div>
+          <div class="field">
+            <label for="f-radius">Radius</label>
+            <select id="f-radius" disabled>
+              <option>Op til 30 km</option>
+              <option selected>Op til 50 km</option>
+              <option>Op til 80 km</option>
+            </select>
+          </div>
+          <div class="flow-actions">
+            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
+            <button type="button" class="btn btn--primary" data-flow-next>Se oversigt</button>
+          </div>
+        </div>
+
+        <div class="flow-panel" data-step="3">
+          <h2>Profil klar (sketch)</h2>
+          <p class="hint">I den rigtige app ville I nu kunne se relevante opgaver.</p>
+          <ul class="summary-list">
+            <li><span>Firma</span><strong>Nordisk Mur ApS</strong></li>
+            <li><span>Fag</span><strong>Murer, fliser</strong></li>
+            <li><span>Område</span><strong>5000 · 50 km</strong></li>
+            <li><span>For private</span><strong>Gratis · uforpligtende</strong></li>
+          </ul>
+          <p class="mock-note">
+            Mock-onboarding. Intet firma oprettes her.
+            Live flow: <a href="https://byggepiloten.dk/opret/firma">byggepiloten.dk/opret/firma</a>
+          </p>
+          <div class="flow-actions">
+            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
+            <a class="btn btn--primary" href="https://byggepiloten.dk/opret/firma">Åbn live firma-flow</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>ByggePiloten</strong> — sketch: firma-onboarding</p>
+    <nav class="footer-nav" aria-label="Sketch-navigation">
+      <a href="index.html">Forside</a>
+      <a href="opret-privat.html">Opret privat</a>
+      <a href="opret-firma.html">Opret firma</a>
+      <a href="https://byggepiloten.dk">Live site</a>
+    </nav>
+    <p class="muted">Gratis · uforpligtende · ingen abonnement</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
