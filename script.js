@@ -4,39 +4,154 @@
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* —— Sticky narrative beats —— */
+  /* —— Sticky narrative beats + horizontal snap carousel —— */
   function initStoryBeats() {
     const beats = document.querySelectorAll(".story__beat");
-    const cards = document.querySelectorAll(".beat-card");
-    const dots = document.querySelectorAll(".beat-progress span");
-    if (!beats.length || !cards.length) return;
+    const stack = document.querySelector(".card-stack");
+    const cards = Array.from(document.querySelectorAll(".beat-card"));
+    const dots = Array.from(document.querySelectorAll(".beat-progress [data-i]"));
+    if (!stack || !cards.length) return;
 
     let active = 0;
+    let syncingFromRail = false;
+    let syncingFromScroll = false;
 
-    function setBeat(i) {
-      if (i === active && cards[i].classList.contains("is-active")) return;
+    function setActive(i, { scrollCarousel = false, scrollRail = false } = {}) {
+      if (i < 0 || i >= cards.length) return;
       active = i;
       cards.forEach((c, idx) => c.classList.toggle("is-active", idx === i));
-      dots.forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+      dots.forEach((d, idx) => {
+        const on = idx === i;
+        d.classList.toggle("is-on", on);
+        if (d.hasAttribute("aria-current") || d.tagName === "BUTTON") {
+          if (on) d.setAttribute("aria-current", "true");
+          else d.removeAttribute("aria-current");
+        }
+      });
+      const visual = document.querySelector(".story__visual");
+      if (visual) visual.setAttribute("data-beat", String(i));
+
+      if (scrollCarousel) {
+        syncingFromRail = true;
+        const card = cards[i];
+        const left =
+          card.offsetLeft - (stack.clientWidth - card.clientWidth) / 2;
+        stack.scrollTo({
+          left: Math.max(0, left),
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
+        window.setTimeout(() => {
+          syncingFromRail = false;
+        }, reduceMotion ? 50 : 420);
+      }
+
+      if (scrollRail && beats[i] && !reduceMotion) {
+        /* Don't yank the page on every swipe — only when user clicks a dot */
+        syncingFromScroll = true;
+        beats[i].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+        window.setTimeout(() => {
+          syncingFromScroll = false;
+        }, 500);
+      }
     }
+
+    function nearestCardIndex() {
+      const mid = stack.scrollLeft + stack.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      cards.forEach((card, idx) => {
+        const cMid = card.offsetLeft + card.clientWidth / 2;
+        const dist = Math.abs(cMid - mid);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = idx;
+        }
+      });
+      return best;
+    }
+
+    let scrollTick = false;
+    stack.addEventListener(
+      "scroll",
+      () => {
+        if (syncingFromRail) return;
+        if (scrollTick) return;
+        scrollTick = true;
+        requestAnimationFrame(() => {
+          scrollTick = false;
+          const i = nearestCardIndex();
+          if (i !== active) setActive(i);
+        });
+      },
+      { passive: true }
+    );
+
+    /* Pointer drag for desktop (mouse) — touch uses native scroll */
+    let drag = null;
+    stack.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") return;
+      if (e.button !== 0) return;
+      drag = {
+        id: e.pointerId,
+        startX: e.clientX,
+        startScroll: stack.scrollLeft,
+        moved: false,
+      };
+      stack.setPointerCapture(e.pointerId);
+    });
+    stack.addEventListener("pointermove", (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.startX;
+      if (Math.abs(dx) > 4) drag.moved = true;
+      stack.scrollLeft = drag.startScroll - dx;
+    });
+    function endDrag(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      const wasMoved = drag.moved;
+      drag = null;
+      if (wasMoved) {
+        const i = nearestCardIndex();
+        setActive(i, { scrollCarousel: true });
+      }
+    }
+    stack.addEventListener("pointerup", endDrag);
+    stack.addEventListener("pointercancel", endDrag);
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const i = Number(dot.getAttribute("data-i"));
+        if (Number.isNaN(i)) return;
+        setActive(i, { scrollCarousel: true, scrollRail: true });
+      });
+    });
 
     if (reduceMotion) {
       cards.forEach((c) => c.classList.add("is-active"));
       return;
     }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const i = Number(entry.target.getAttribute("data-beat"));
-          if (!Number.isNaN(i)) setBeat(i);
-        });
-      },
-      { root: null, threshold: 0.45, rootMargin: "-10% 0px -25% 0px" }
-    );
+    /* Vertical rail still drives which card is active on desktop sticky layout */
+    if (beats.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (syncingFromScroll) return;
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const i = Number(entry.target.getAttribute("data-beat"));
+            if (!Number.isNaN(i) && i !== active) {
+              setActive(i, { scrollCarousel: true });
+            }
+          });
+        },
+        { root: null, threshold: 0.45, rootMargin: "-10% 0px -25% 0px" }
+      );
+      beats.forEach((b) => io.observe(b));
+    }
 
-    beats.forEach((b) => io.observe(b));
+    setActive(0);
   }
 
   /* —— Layered parallax on scroll —— */

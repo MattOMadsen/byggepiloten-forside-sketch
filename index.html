@@ -62,11 +62,11 @@
       </div>
     </section>
 
-    <!-- Sticky narrative: problem → skriv → få bud -->
+    <!-- Sticky narrative: problem → skriv → få bud (horizontal snap carousel) -->
     <section class="story" aria-label="Sådan virker det">
       <div class="story__sticky">
         <div class="story__visual" data-beat="0">
-          <div class="card-stack">
+          <div class="card-stack" role="region" aria-label="Historie-kort — swipe sidelæns" tabindex="0">
             <article class="beat-card beat-card--problem is-active" data-for="0">
               <div class="beat-icon" aria-hidden="true">
                 <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2"/><path d="M22 38c3-6 8-10 10-10s7 4 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="26" r="2.5" fill="currentColor"/><circle cx="40" cy="26" r="2.5" fill="currentColor"/></svg>
@@ -89,10 +89,10 @@
               <p>Firmaer i dit område svarer med bud. Det er gratis og uforpligtende at modtage dem — og du vælger selv, hvem du vil snakke videre med.</p>
             </article>
           </div>
-          <div class="beat-progress" aria-hidden="true">
-            <span data-i="0" class="is-on"></span>
-            <span data-i="1"></span>
-            <span data-i="2"></span>
+          <div class="beat-progress" role="tablist" aria-label="Skift historie-kort">
+            <button type="button" data-i="0" class="is-on" aria-label="Problemet" aria-current="true"></button>
+            <button type="button" data-i="1" aria-label="Skriv opgaven"></button>
+            <button type="button" data-i="2" aria-label="Få bud"></button>
           </div>
         </div>
       </div>
@@ -136,6 +136,200 @@
             <span>Du styrer tempoet</span>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- Top pr. fag (sketch mock — TradeLeaderboards vibe) -->
+    <section class="top-fag" aria-labelledby="top-fag-heading">
+      <div class="top-fag__inner">
+        <div class="top-fag__head">
+          <svg class="top-fag__trophy" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/>
+            <path d="M17 4h2a2 2 0 0 1 0 4h-2M7 4H5a2 2 0 0 0 0 4h2"/>
+          </svg>
+          <h2 id="top-fag-heading">Top pr. fag</h2>
+        </div>
+        <p class="top-fag__sub">Firmaer inden for hvert fag — anmeldt-mærke vises ved 3+ anmeldelser</p>
+        <p class="top-fag__sketch-note">Sketch-eksempel · mock-data · ikke live rangering</p>
+
+        <div class="top-fag__grid">
+          <article class="trade-card">
+            <h3>Murer</h3>
+            <p class="trade-card__sub">Murværk, puds, fliser, tegltag og fundament</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Nordkysten Mur &amp; Flise</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,8</span> <span>(12)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Øresund Murværk</a>
+                  <div class="rank__meta"><span class="score">4,6</span> <span>(7)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Byens Flisemestre</a>
+                  <div class="rank__meta"><span class="score">4,4</span> <span>(4)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="trade-card">
+            <h3>Tømrer</h3>
+            <p class="trade-card__sub">Tagkonstruktion, træterrasse, gulv, døre og trækonstruktioner</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Træ &amp; Tag ApS</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,9</span> <span>(18)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Håndværk Nordvest</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,7</span> <span>(9)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Spær &amp; Terrasse</a>
+                  <div class="rank__meta"><span class="score">4,5</span> <span>(5)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="trade-card">
+            <h3>VVS</h3>
+            <p class="trade-card__sub">Vand, varme, afløb og badeværelse</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Vand &amp; Varme Sjælland</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,8</span> <span>(15)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Badeværelsesproffen</a>
+                  <div class="rank__meta"><span class="score">4,6</span> <span>(6)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Lokal Rør &amp; Radiator</a>
+                  <div class="rank__meta"><span class="score">4,3</span> <span>(3)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="trade-card">
+            <h3>Elektriker</h3>
+            <p class="trade-card__sub">El-installation, tavle, belysning og fejlsøgning</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Strøm &amp; Sikring ApS</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,9</span> <span>(21)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">El-mesteren Køge</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,7</span> <span>(11)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Lys &amp; Tavle</a>
+                  <div class="rank__meta"><span class="score">4,5</span> <span>(4)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="trade-card">
+            <h3>Maler</h3>
+            <p class="trade-card__sub">Inde/ude maling, tapet og spartling</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Farve &amp; Finish</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,8</span> <span>(14)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Vægge Nord</a>
+                  <div class="rank__meta"><span class="score">4,6</span> <span>(8)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Tapet &amp; Spartel</a>
+                  <div class="rank__meta"><span class="score">4,4</span> <span>(3)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="trade-card">
+            <h3>Anlægsgartner</h3>
+            <p class="trade-card__sub">Have, græs, hæk, beplantning og hegn</p>
+            <ol class="trade-ranks">
+              <li>
+                <span class="rank rank--1">1</span>
+                <div class="rank__body">
+                  <a href="https://byggepiloten.dk" class="rank__name">Have &amp; Hegn ApS</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,9</span> <span>(16)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">2</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Grønne Hænder</a>
+                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
+                  <div class="rank__meta"><span class="score">4,7</span> <span>(10)</span></div>
+                </div>
+              </li>
+              <li>
+                <span class="rank">3</span>
+                <div class="rank__body">
+                  <a href="#" class="rank__name">Plæne &amp; Bede</a>
+                  <div class="rank__meta"><span class="score">4,5</span> <span>(5)</span></div>
+                </div>
+              </li>
+            </ol>
+          </article>
+        </div>
       </div>
     </section>
 
