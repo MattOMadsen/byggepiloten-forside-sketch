@@ -48,12 +48,15 @@
 
     <div class="flow-shell">
       <div class="flow-card" data-flow="privat">
-        <ol class="flow-steps" aria-label="Trin">
-          <li class="is-on">1. Opgave</li>
-          <li>2. Detaljer</li>
-          <li>3. Kontakt</li>
-          <li>4. Klar</li>
-        </ol>
+        <div class="flow-progress">
+          <ol class="flow-steps" aria-label="Trin">
+            <li class="is-on" data-label="Opgave"><span class="flow-steps__dot">1</span></li>
+            <li data-label="Detaljer"><span class="flow-steps__dot">2</span></li>
+            <li data-label="Kontakt"><span class="flow-steps__dot">3</span></li>
+            <li data-label="Klar"><span class="flow-steps__dot">4</span></li>
+          </ol>
+          <p class="flow-progress__current"><strong>Trin 1</strong> — Opgave</p>
+        </div>
 
         <div class="flow-panel is-active" data-step="0">
           <h2>Hvad skal laves?</h2>

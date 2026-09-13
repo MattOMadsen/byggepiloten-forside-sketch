@@ -294,6 +294,8 @@
     const prevBtns = root.querySelectorAll("[data-flow-prev]");
     let i = 0;
 
+    const progressLabel = root.querySelector(".flow-progress__current");
+
     function show(n) {
       i = Math.max(0, Math.min(n, panels.length - 1));
       panels.forEach((p, idx) => p.classList.toggle("is-active", idx === i));
@@ -301,6 +303,11 @@
         s.classList.toggle("is-on", idx === i);
         s.classList.toggle("is-done", idx < i);
       });
+      if (progressLabel && steps[i]) {
+        const label = steps[i].dataset.label || "";
+        progressLabel.innerHTML =
+          "<strong>Trin " + (i + 1) + "</strong>" + (label ? " — " + label : "");
+      }
     }
 
     nextBtns.forEach((btn) =>
@@ -332,9 +339,25 @@
     show(0);
   }
 
+
+  /* —— Hero scroll cue —— */
+  function initScrollCue() {
+    const cue = document.querySelector("[data-scroll-to]");
+    if (!cue) return;
+    cue.addEventListener("click", (e) => {
+      const sel = cue.getAttribute("data-scroll-to");
+      const target = sel && document.querySelector(sel);
+      if (!target) return;
+      e.preventDefault();
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+  }
+
   initStoryBeats();
   initParallax();
   initFog();
   initHeader();
   initFlow();
+  initScrollCue();
 })();
