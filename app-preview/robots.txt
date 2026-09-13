@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# PR #34 preview — not production
