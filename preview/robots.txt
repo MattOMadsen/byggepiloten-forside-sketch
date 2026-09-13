@@ -1,0 +1,14 @@
+# ByggePiloten — offentlig beta
+User-agent: *
+Allow: /
+
+# SPA / app-ruter der ikke skal crawles unødigt
+Disallow: /admin
+Disallow: /api/
+Disallow: /platform-betaling
+Disallow: /nulstil-adgangskode
+Disallow: /glemt-adgangskode
+Disallow: /bekraeft-email
+
+Sitemap: https://byggepiloten.dk/sitemap.xml
+Sitemap: https://byggepiloten.dk/sitemap-portfolios.xml

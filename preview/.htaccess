@@ -1,0 +1,48 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Let's Encrypt (Simply)
+  RewriteRule ^\.well-known/ - [L]
+
+  # Tving HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # API → PHP-proxy → lokal Node (port 3001)
+  # QSA: Facebook webhook kræver hub.mode / hub.verify_token / hub.challenge
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteRule ^api/ api-proxy.php [QSA,L]
+
+  # Manglende build-assets: rigtig 404 (ikke SPA-index.html med text/html)
+  # Ellers får browser "MIME type text/html" for CSS/JS → blank side.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^assets/ - [R=404,L]
+
+  # Portfolio-sitemap (dynamisk via PHP → Node)
+  RewriteRule ^sitemap-portfolios\.xml$ sitemap-portfolios.php [L]
+
+  # Statiske root-filer: aldrig SPA-index (undgår 500/HTML på xml/svg/png)
+  RewriteRule ^(sitemap\.xml|robots\.txt|favicon\.svg|icon-192\.svg|icon-512\.svg|og-share\.png|og-image\.png|manifest\.webmanifest)$ - [L]
+
+  # Manglende ikoner/xml: rigtig 404, ikke SPA-HTML
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(sitemap\.xml|robots\.txt|favicon\.ico|icon-.*\.(svg|png)|apple-touch-icon.*)$ - [R=404,L]
+
+  # React SPA (ruter som /login → index.html)
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteCond %{REQUEST_URI} !^/assets/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# HTML må ikke caches længe — ellers peger browser på slettede asset-hashes efter deploy
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "^(sw\.js)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
