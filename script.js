@@ -340,7 +340,7 @@
   }
 
 
-  /* —— Hero scroll cue —— */
+  /* —— Scroll cue (under story card) —— */
   function initScrollCue() {
     document.querySelectorAll("[data-scroll-to]").forEach((cue) => {
       cue.addEventListener("click", (e) => {
