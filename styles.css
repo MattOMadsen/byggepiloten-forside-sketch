@@ -211,8 +211,8 @@ a { color: inherit; }
 }
 
 .micro {
-  margin: 0.85rem 0 0;
-  font-size: 0.82rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
   color: var(--bp-muted);
 }
 .micro a {
@@ -224,8 +224,9 @@ a { color: inherit; }
 .hero__ctas {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 .hero__ctas--center {
   justify-content: center;
@@ -245,6 +246,12 @@ a { color: inherit; }
   min-height: min(92vh, 820px);
   display: flex;
   align-items: center;
+}
+
+/* Mobile: pin hero content high so both CTAs clear the fold */
+.hero {
+  align-items: flex-start;
+  min-height: min(85vh, 820px);
 }
 
 .parallax {
@@ -312,19 +319,19 @@ a { color: inherit; }
   position: relative;
   z-index: 2;
   width: min(640px, 100%);
-  padding: 5rem 1.5rem 4rem;
+  padding: 2.5rem 1.25rem 3.25rem;
   margin-inline: auto;
   text-align: center;
 }
 
 .eyebrow {
   display: inline-block;
-  margin: 0 0 1rem;
-  padding: 0.35rem 0.85rem;
+  margin: 0 0 0.5rem;
+  padding: 0.28rem 0.75rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--bp-sky) 70%, white);
   color: var(--bp-blue-dark);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -335,10 +342,10 @@ a { color: inherit; }
 }
 
 .hero h1 {
-  margin: 0 0 1rem;
+  margin: 0 0 0.55rem;
   font-weight: 700;
-  font-size: clamp(2.1rem, 6vw, 3.35rem);
-  line-height: 1.12;
+  font-size: clamp(1.85rem, 6.5vw, 3.35rem);
+  line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--bp-ink);
 }
@@ -349,31 +356,32 @@ a { color: inherit; }
 }
 
 .lede {
-  margin: 0 auto 1.75rem;
+  margin: 0 auto 1.05rem;
   max-width: 34rem;
-  font-size: 1.08rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
   color: var(--bp-muted);
 }
 
 .scroll-cue {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.72rem;
+  gap: 0.3rem;
+  font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--bp-muted);
-  opacity: 0.65;
+  opacity: 0.5;
 }
 .scroll-cue__line {
   width: 1px;
-  height: 2.5rem;
+  height: 1.5rem;
   background: linear-gradient(180deg, var(--bp-blue), transparent);
   animation: cue-pulse 2.2s ease-in-out infinite;
 }
@@ -1019,12 +1027,46 @@ a { color: inherit; }
   .hide-sm,
   .header-cta { display: inline-flex; }
   .header-textlink { display: inline-flex; }
+  .hero {
+    align-items: center;
+    min-height: min(92vh, 820px);
+  }
   .hero__content {
     text-align: left;
     margin-inline: 0 0 0 8vw;
-    padding-inline: 2rem;
+    padding: 5rem 2rem 4rem;
   }
-  .lede { margin-inline: 0; }
+  .eyebrow {
+    margin: 0 0 1rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+  }
+  .hero h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.1rem, 6vw, 3.35rem);
+    line-height: 1.12;
+  }
+  .lede {
+    margin: 0 0 1.75rem;
+    margin-inline: 0;
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+  .hero__ctas {
+    gap: 0.75rem;
+    justify-content: flex-start;
+  }
+  .micro {
+    margin: 0.85rem 0 0;
+    font-size: 0.82rem;
+  }
+  .scroll-cue {
+    bottom: 1.5rem;
+    opacity: 0.65;
+    font-size: 0.72rem;
+    gap: 0.4rem;
+  }
+  .scroll-cue__line { height: 2.5rem; }
   .story {
     grid-template-columns: minmax(320px, 42%) 1fr;
     align-items: start;
@@ -1065,6 +1107,16 @@ a { color: inherit; }
   .flow-hero { text-align: left; padding-inline: 8vw; }
   .flow-hero__content { margin-inline: 0; }
   .flow-shell { margin-inline: 8vw auto; max-width: 560px; }
+}
+
+
+/* Short phones: keep both hero CTAs above the fold */
+@media (max-width: 859px) and (max-height: 740px) {
+  .hero__content { padding-top: 1.75rem; padding-bottom: 2.75rem; }
+  .hero h1 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .lede { margin-bottom: 0.85rem; font-size: 0.92rem; }
+  .hero .btn { padding: 0.6rem 1.1rem; font-size: 0.9rem; }
+  .scroll-cue { display: none; }
 }
 
 /* —— Reduced motion —— */
