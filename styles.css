@@ -819,9 +819,12 @@ a { color: inherit; }
 .flow-hero {
   position: relative;
   isolation: isolate;
-  padding: 3.5rem 1.25rem 2rem;
+  padding: 3.5rem 1.25rem 3.5rem;
   overflow: hidden;
   text-align: center;
+}
+.flow-hero .scroll-cue {
+  bottom: 1rem;
 }
 .flow-hero .parallax {
   opacity: 0.85;
@@ -1104,6 +1107,22 @@ a { color: inherit; }
 .page-firma .field select:focus {
   border-color: var(--bp-accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--bp-accent) 22%, transparent);
+}
+
+/* Cross-sell header CTA: opposite path’s color */
+.page-privat .header-cta {
+  background: var(--bp-accent);
+  box-shadow: 0 8px 24px rgba(232, 145, 58, 0.28);
+}
+.page-privat .header-cta:hover {
+  background: color-mix(in srgb, var(--bp-accent) 85%, #000);
+}
+.page-firma .header-cta {
+  background: var(--bp-blue);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.28);
+}
+.page-firma .header-cta:hover {
+  background: var(--bp-blue-dark);
 }
 
 

@@ -342,15 +342,15 @@
 
   /* —— Hero scroll cue —— */
   function initScrollCue() {
-    const cue = document.querySelector("[data-scroll-to]");
-    if (!cue) return;
-    cue.addEventListener("click", (e) => {
-      const sel = cue.getAttribute("data-scroll-to");
-      const target = sel && document.querySelector(sel);
-      if (!target) return;
-      e.preventDefault();
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    document.querySelectorAll("[data-scroll-to]").forEach((cue) => {
+      cue.addEventListener("click", (e) => {
+        const sel = cue.getAttribute("data-scroll-to");
+        const target = sel && document.querySelector(sel);
+        if (!target) return;
+        e.preventDefault();
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      });
     });
   }
 
