@@ -322,10 +322,23 @@ a { color: inherit; }
 .hero__content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: min(640px, 100%);
-  padding: 1.75rem 1.25rem 2.5rem;
+  padding: 1.75rem 1.25rem 1.5rem;
   margin-inline: auto;
   text-align: center;
+}
+.hero__content .hero__ctas {
+  align-self: stretch;
+  width: 100%;
+}
+.hero__content .micro {
+  margin-bottom: 0;
+}
+.hero__content .scroll-cue {
+  margin-top: 1.1rem;
 }
 
 .eyebrow {
@@ -367,27 +380,22 @@ a { color: inherit; }
   color: var(--bp-muted);
 }
 
+/* In-flow scroll cue: never overlaps .micro / short heroes */
 .scroll-cue {
-  position: absolute;
-  bottom: 0.85rem;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 3;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  margin: 0;
-  padding: 0.45rem 0.85rem;
+  justify-content: center;
+  gap: 0.15rem;
+  margin: 1.15rem auto 0;
+  padding: 0.35rem 0.75rem 0.15rem;
   border: 0;
   background: transparent;
   font: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bp-blue-dark);
-  opacity: 0.85;
+  color: var(--bp-blue);
+  opacity: 1;
   cursor: pointer;
   text-decoration: none;
   animation: cue-bounce 2.4s ease-in-out infinite;
@@ -396,6 +404,7 @@ a { color: inherit; }
 .scroll-cue:focus-visible {
   opacity: 1;
   outline: none;
+  color: var(--bp-blue-dark);
 }
 .scroll-cue:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--bp-blue) 22%, transparent);
@@ -403,18 +412,28 @@ a { color: inherit; }
 }
 .scroll-cue__arrow {
   display: block;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.85rem;
+  height: 1.85rem;
   color: var(--bp-blue);
+  flex-shrink: 0;
 }
 .scroll-cue__arrow svg {
   display: block;
   width: 100%;
   height: 100%;
 }
+.scroll-cue__label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bp-blue-dark);
+  opacity: 0.7;
+  line-height: 1;
+}
 @keyframes cue-bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.75; }
-  50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
 }
 
 /* —— Sticky story —— */
@@ -819,12 +838,19 @@ a { color: inherit; }
 .flow-hero {
   position: relative;
   isolation: isolate;
-  padding: 3.5rem 1.25rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: auto;
+  padding: 2.75rem 1.25rem 1.25rem;
   overflow: hidden;
   text-align: center;
 }
 .flow-hero .scroll-cue {
-  bottom: 1rem;
+  position: relative;
+  margin: 0.85rem auto 0.35rem;
+  opacity: 1;
 }
 .flow-hero .parallax {
   opacity: 0.85;
@@ -842,14 +868,14 @@ a { color: inherit; }
   letter-spacing: -0.03em;
 }
 .flow-hero .lede {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .flow-shell {
   position: relative;
   z-index: 2;
   max-width: 640px;
-  margin: -1rem auto 3rem;
+  margin: 0.25rem auto 3rem;
   padding: 0 1.25rem 2rem;
 }
 
@@ -1155,8 +1181,9 @@ a { color: inherit; }
   }
   .hero__content {
     text-align: left;
+    align-items: flex-start;
     margin-inline: 0 0 0 8vw;
-    padding: 5rem 2rem 4rem;
+    padding: 5rem 2rem 2.5rem;
   }
   .eyebrow {
     margin: 0 0 1rem;
@@ -1189,9 +1216,19 @@ a { color: inherit; }
     font-size: 0.82rem;
   }
   .scroll-cue {
-    bottom: 1.6rem;
-    opacity: 0.9;
-    font-size: 0.75rem;
+    opacity: 1;
+  }
+  .scroll-cue__arrow {
+    width: 2rem;
+    height: 2rem;
+  }
+  .hero__content .scroll-cue {
+    margin-top: 1.5rem;
+    align-self: flex-start;
+  }
+  .flow-hero .scroll-cue {
+    align-self: flex-start;
+    margin-inline: 0;
   }
   .story {
     grid-template-columns: minmax(320px, 42%) 1fr;
@@ -1236,18 +1273,15 @@ a { color: inherit; }
 }
 
 
-/* Short phones: keep both hero CTAs above the fold; keep scroll cue visible */
+/* Short phones: keep both hero CTAs above the fold; cue stays in flow after .micro */
 @media (max-width: 859px) and (max-height: 740px) {
-  .hero__content { padding-top: 1.75rem; padding-bottom: 3.25rem; }
+  .hero__content { padding-top: 1.75rem; padding-bottom: 1.1rem; }
   .hero h1 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
   .lede { margin-bottom: 0.85rem; font-size: 0.92rem; }
   .hero .btn { padding: 0.6rem 1.1rem; font-size: 0.9rem; }
-  .scroll-cue {
-    bottom: 0.35rem;
-    opacity: 0.9;
-    font-size: 0.68rem;
-  }
-  .scroll-cue__arrow { width: 1.2rem; height: 1.2rem; }
+  .hero__content .scroll-cue { margin-top: 0.85rem; }
+  .scroll-cue__arrow { width: 1.65rem; height: 1.65rem; }
+  .scroll-cue__label { font-size: 0.58rem; }
 }
 
 /* —— Reduced motion —— */
