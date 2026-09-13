@@ -1,1 +1,0 @@
-import{O as e,o as t}from"./apiClient-CB9LHa6g.js";async function n(n){if(!n.startsWith(`data:image/`)||!e())return n;try{let e=await t(`/api/uploads`,{method:`POST`,body:JSON.stringify({dataUrl:n})});if(e.url)return e.url}catch(e){console.warn(`[upload] fejl — beholder data-URL`,e)}return n}export{n as uploadDataUrlImage};
