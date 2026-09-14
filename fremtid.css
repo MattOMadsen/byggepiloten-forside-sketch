@@ -1,0 +1,360 @@
+/* Fremtid roadmap draft — page-specific, reuses styles.css tokens */
+
+.page-fremtid .site-header {
+  background: color-mix(in srgb, var(--bp-bg) 92%, transparent);
+}
+
+.fremtid-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.fremtid-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--bp-radius) + 6px);
+  border: 1px solid color-mix(in srgb, var(--bp-blue) 22%, var(--bp-border));
+  background: linear-gradient(145deg, var(--bp-sky) 0%, var(--bp-surface) 55%, var(--bp-surface) 100%);
+  padding: 1.5rem 1.25rem 1.75rem;
+  box-shadow: var(--bp-shadow);
+}
+
+.fremtid-hero::before {
+  content: "";
+  position: absolute;
+  right: -3rem;
+  top: -2rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bp-blue) 12%, transparent);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.fremtid-kicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--bp-blue) 28%, var(--bp-border));
+  background: color-mix(in srgb, #fff 75%, transparent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bp-blue);
+}
+
+.fremtid-hero h1 {
+  position: relative;
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.55rem, 5.5vw, 2.15rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--bp-ink);
+}
+
+.fremtid-lead {
+  position: relative;
+  margin: 0.85rem 0 0;
+  max-width: 42rem;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  line-height: 1.6;
+  color: var(--bp-muted);
+}
+
+.fremtid-updated {
+  position: relative;
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--bp-muted);
+}
+
+.fremtid-draft-note {
+  position: relative;
+  margin: 1rem 0 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: var(--bp-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--bp-accent) 35%, var(--bp-border));
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--bp-ink) 85%, var(--bp-accent));
+}
+
+.fremtid-back {
+  display: inline-flex;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bp-blue);
+  text-decoration: none;
+}
+.fremtid-back:hover { text-decoration: underline; }
+
+.fremtid-principles {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+}
+
+.fremtid-principle {
+  background: var(--bp-surface);
+  border: 1px solid var(--bp-border);
+  border-radius: var(--bp-radius);
+  padding: 1rem 1.1rem;
+}
+.fremtid-principle h2 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--bp-ink);
+}
+.fremtid-principle p {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--bp-muted);
+}
+
+.fremtid-phase {
+  margin-top: 2.25rem;
+  scroll-margin-top: calc(var(--header-h) + 0.75rem);
+}
+
+.fremtid-phase__period {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bp-blue);
+}
+
+.fremtid-phase h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.25rem, 4vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--bp-ink);
+}
+
+.fremtid-phase__intro {
+  margin: 0.5rem 0 0;
+  max-width: 40rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--bp-muted);
+}
+
+.fremtid-items {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.fremtid-item {
+  background: var(--bp-surface);
+  border: 1px solid var(--bp-border);
+  border-radius: var(--bp-radius);
+  padding: 1rem 1.1rem;
+}
+
+.fremtid-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  ring: 1px;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.badge--live {
+  background: #d1fae5;
+  color: #065f46;
+  box-shadow: inset 0 0 0 1px #a7f3d0;
+}
+.badge--beta {
+  background: #e0f2fe;
+  color: #0c4a6e;
+  box-shadow: inset 0 0 0 1px #bae6fd;
+}
+.badge--planlagt {
+  background: #fef3c7;
+  color: #78350f;
+  box-shadow: inset 0 0 0 1px #fde68a;
+}
+.badge--vision {
+  background: #ede9fe;
+  color: #4c1d95;
+  box-shadow: inset 0 0 0 1px #ddd6fe;
+}
+
+.whom {
+  font-size: 0.68rem;
+  font-weight: 650;
+  color: var(--bp-muted);
+}
+
+.fremtid-item h3 {
+  margin: 0.65rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bp-ink);
+}
+
+.fremtid-item p {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--bp-muted);
+}
+
+.fremtid-highlight {
+  margin-top: 2.25rem;
+  border-radius: calc(var(--bp-radius) + 6px);
+  border: 1px solid color-mix(in srgb, var(--bp-blue) 28%, var(--bp-border));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--bp-sky) 80%, #fff), var(--bp-surface));
+  padding: 1.35rem 1.2rem 1.5rem;
+}
+
+.fremtid-highlight--vision {
+  border-color: color-mix(in srgb, #8b5cf6 35%, var(--bp-border));
+  background: linear-gradient(145deg, #f5f3ff, var(--bp-surface));
+}
+
+.fremtid-highlight__label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bp-blue);
+}
+
+.fremtid-highlight--vision .fremtid-highlight__label {
+  color: #6d28d9;
+}
+
+.fremtid-highlight h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+  font-weight: 800;
+  color: var(--bp-ink);
+}
+
+.fremtid-highlight > p {
+  margin: 0.65rem 0 0;
+  max-width: 40rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--bp-muted);
+}
+
+.fremtid-pillars {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+}
+
+.fremtid-pillar {
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--bp-blue) 18%, var(--bp-border));
+  background: color-mix(in srgb, #fff 85%, transparent);
+  padding: 0.75rem 0.9rem;
+}
+.fremtid-highlight--vision .fremtid-pillar {
+  border-color: color-mix(in srgb, #8b5cf6 25%, var(--bp-border));
+}
+.fremtid-pillar strong {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--bp-ink);
+}
+.fremtid-pillar span {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--bp-muted);
+}
+
+.fremtid-highlight__note {
+  margin: 1rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--bp-muted);
+}
+
+.fremtid-cta {
+  margin-top: 2.25rem;
+  text-align: center;
+  border-radius: var(--bp-radius);
+  border: 1px solid var(--bp-border);
+  background: var(--bp-surface);
+  padding: 1.5rem 1.2rem;
+}
+.fremtid-cta h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.fremtid-cta p {
+  margin: 0.5rem auto 0;
+  max-width: 28rem;
+  font-size: 0.875rem;
+  color: var(--bp-muted);
+}
+.fremtid-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.25rem 0 0;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bp-muted);
+}
+
+@media (min-width: 640px) {
+  .fremtid-wrap { padding-inline: 1.5rem; }
+  .fremtid-hero { padding: 2rem 2rem 2.15rem; }
+  .fremtid-principles { grid-template-columns: repeat(3, 1fr); }
+  .fremtid-items { grid-template-columns: repeat(2, 1fr); }
+  .fremtid-pillars { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .fremtid-pillars { grid-template-columns: repeat(4, 1fr); }
+}
