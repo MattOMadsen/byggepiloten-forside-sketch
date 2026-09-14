@@ -559,7 +559,7 @@ a { color: inherit; }
 }
 
 .story__rail {
-  padding: 0.5rem 1.25rem 3rem;
+  padding: 0.5rem 1.25rem 0.75rem;
 }
 
 .story__beat {
@@ -568,10 +568,13 @@ a { color: inherit; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.35rem 0 1.5rem;
+  padding: 1.15rem 0 1rem;
   border-top: 1px dashed color-mix(in srgb, var(--bp-blue) 22%, transparent);
 }
 .story__beat:first-child { border-top: 0; }
+.story__beat:last-child {
+  padding-bottom: 0.35rem;
+}
 
 .rail-label {
   margin: 0 0 0.5rem;
@@ -589,14 +592,14 @@ a { color: inherit; }
   color: var(--bp-ink);
 }
 .story__beat p {
-  margin: 0 0 1.25rem;
+  margin: 0 0 0.35rem;
   max-width: 36rem;
   color: var(--bp-muted);
 }
 
 /* —— Atmosphere —— */
 .atmosphere {
-  padding: 4.5rem 1.25rem;
+  padding: 1.25rem 1.25rem 3.25rem;
   background:
     radial-gradient(ellipse 70% 90% at 0% 100%, color-mix(in srgb, var(--bp-sky) 85%, transparent), transparent 55%),
     radial-gradient(ellipse 60% 80% at 100% 0%, color-mix(in srgb, var(--bp-accent-soft) 70%, transparent), transparent 50%),
@@ -620,22 +623,7 @@ a { color: inherit; }
   border-left: 3px solid color-mix(in srgb, var(--bp-blue) 70%, var(--bp-accent));
   overflow: hidden;
 }
-.atmosphere__mark {
-  position: absolute;
-  top: -0.15rem;
-  left: 0.55rem;
-  font-size: clamp(4.5rem, 12vw, 6.5rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: color-mix(in srgb, var(--bp-blue) 55%, var(--bp-accent));
-  opacity: 0.14;
-  pointer-events: none;
-  user-select: none;
-}
 .atmosphere__quote p {
-  position: relative;
-  z-index: 1;
   margin: 0;
   font-size: clamp(1.2rem, 2.8vw, 1.55rem);
   font-weight: 600;
@@ -1311,7 +1299,7 @@ a { color: inherit; }
     width: min(92%, 24rem);
   }
   .story__rail {
-    padding: 3rem 8vw 4rem 2rem;
+    padding: 3rem 8vw 2rem 2rem;
   }
   /* Desktop sticky rail: give beats room so sticky cards can sync while scrolling */
   .story__beat {
@@ -1319,7 +1307,7 @@ a { color: inherit; }
     padding: 2.5rem 0;
   }
   .atmosphere {
-    padding-inline: 2rem;
+    padding: 2.5rem 2rem 4rem;
   }
   .pillars {
     grid-template-columns: repeat(3, 1fr);
