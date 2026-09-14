@@ -346,7 +346,7 @@
               '<p class="order-item__count">' +
               o.lines.length +
               (o.lines.length === 1 ? ' linje' : ' linjer') +
-              ' · pakke</p>';
+              '</p>';
           }
           return (
             '<li class="order-item" data-id="' +
@@ -455,7 +455,7 @@
         resetLines();
         toast(
           toastEl,
-          'Pakke sendt til kunden — de godkender alle ' +
+          'Sendt til godkendelse — kunden godkender alle ' +
             collected.length +
             (collected.length === 1 ? ' linje' : ' linjer') +
             ' via ét link (demo)',
@@ -555,7 +555,7 @@
           (order.status === 'approved' ? '✓ ' : '✕ ') +
           STATUS_LABEL[order.status] +
           (order.status === 'approved'
-            ? ' — firmaet opretter tillægsfaktura ud fra denne pakke.'
+            ? ' — firmaet opretter tillægsfaktura ud fra denne aftale.'
             : '.') +
           '</p>';
         if (order.status === 'approved') {
@@ -570,7 +570,7 @@
       if (pending) {
         actions =
           '<div class="aendring-actions aendring-actions--row">' +
-          '<button type="button" class="btn btn--primary btn--full" id="btn-approve">Godkend pakke</button>' +
+          '<button type="button" class="btn btn--primary btn--full" id="btn-approve">Godkend</button>' +
           '<button type="button" class="btn btn--ghost btn--full" id="btn-reject">Afvis</button>' +
           '</div>';
       }
@@ -609,7 +609,7 @@
         '</p>' +
         linesBlock +
         '<div class="price-box">' +
-        '<p class="label">Pakke i alt</p>' +
+        '<p class="label">I alt</p>' +
         '<p class="big">' +
         formatDkk(ex) +
         ' ekskl. moms</p>' +
@@ -620,7 +620,7 @@
         statusBlock +
         '<div id="kunde-toast-slot"></div>' +
         actions +
-        '<p class="legal-note">Dette er en kommerciel godkendelse af merarbejde og pris for hele pakken — ikke et juridisk dokument. Du behøver ikke oprette en konto for at svare.</p>' +
+        '<p class="legal-note">Dette er en kommerciel godkendelse af merarbejde og pris for alle linjer — ikke et juridisk dokument. Du behøver ikke oprette en konto for at svare.</p>' +
         '</div>';
 
       var approve = document.getElementById('btn-approve');
