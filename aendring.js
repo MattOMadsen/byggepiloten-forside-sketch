@@ -64,6 +64,7 @@
       status: o.status || 'pending',
       createdAt: o.createdAt || Date.now(),
       decidedAt: o.decidedAt,
+      invoiceDraftId: o.invoiceDraftId,
     };
   }
 
@@ -177,6 +178,115 @@
     return (lines || []).reduce(function (s, l) {
       return s + (Math.round(Number(l.amountDkk) || 0));
     }, 0);
+  }
+
+  function ensureInvoiceDraftId(order) {
+    if (order && order.invoiceDraftId) return order.invoiceDraftId;
+    var ts = String((order && (order.decidedAt || order.createdAt)) || Date.now());
+    var oid = String((order && order.id) || '');
+    var draftId = 'kladde-' + ts.slice(-6) + '-' + oid.slice(0, 6);
+    if (order) order.invoiceDraftId = draftId;
+    return draftId;
+  }
+
+  function invoiceModalOnKeydown(ev) {
+    if (ev.key === 'Escape') {
+      ev.preventDefault();
+      closeInvoiceDraftModal();
+    }
+  }
+
+  function closeInvoiceDraftModal() {
+    var el = document.getElementById('invoice-draft-modal');
+    if (el) el.remove();
+    document.body.classList.remove('aendring-modal-open');
+    document.removeEventListener('keydown', invoiceModalOnKeydown);
+  }
+
+  function openInvoiceDraftModal(order, data) {
+    closeInvoiceDraftModal();
+    if (!order) return;
+    order = normalizeOrder(order) || order;
+    var draftId = ensureInvoiceDraftId(order);
+    if (data && Array.isArray(data.orders)) {
+      var idx = data.orders.findIndex(function (o) {
+        return o.id === order.id;
+      });
+      if (idx >= 0 && data.orders[idx].invoiceDraftId !== draftId) {
+        data.orders[idx].invoiceDraftId = draftId;
+        save(data);
+      }
+    }
+
+    var ex = sumLines(order.lines);
+    var momsAmt = Math.round(ex * MOMS);
+    var total = customerTotal(ex);
+    var rows = (order.lines || [])
+      .map(function (l) {
+        return (
+          '<tr>' +
+          '<td>' +
+          escapeHtml(l.description) +
+          '</td>' +
+          '<td class="invoice-modal__amt">' +
+          formatDkk(l.amountDkk) +
+          '</td>' +
+          '</tr>'
+        );
+      })
+      .join('');
+
+    var modal = document.createElement('div');
+    modal.id = 'invoice-draft-modal';
+    modal.className = 'invoice-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'invoice-modal-title');
+    modal.innerHTML =
+      '<div class="invoice-modal__backdrop" data-close-invoice-modal></div>' +
+      '<div class="invoice-modal__panel" role="document">' +
+      '<h2 class="invoice-modal__title" id="invoice-modal-title">Tillægsfaktura-kladde</h2>' +
+      '<p class="invoice-modal__meta">' +
+      escapeHtml((data && data.firmName) || DEMO_FIRM) +
+      ' · ' +
+      escapeHtml((data && data.jobLabel) || DEMO_JOB) +
+      '</p>' +
+      '<p class="invoice-modal__badge-wrap"><span class="invoice-modal__badge">' +
+      escapeHtml(draftId) +
+      '</span></p>' +
+      '<p class="invoice-modal__note">I den live app åbner dette den rigtige kundefaktura.</p>' +
+      '<table class="invoice-modal__table">' +
+      '<thead><tr><th>Beskrivelse</th><th>Beløb</th></tr></thead>' +
+      '<tbody>' +
+      rows +
+      '</tbody>' +
+      '<tfoot>' +
+      '<tr><th scope="row">Ekskl. moms</th><td class="invoice-modal__amt">' +
+      formatDkk(ex) +
+      '</td></tr>' +
+      '<tr><th scope="row">Moms 25%</th><td class="invoice-modal__amt">' +
+      formatDkk(momsAmt) +
+      '</td></tr>' +
+      '<tr class="invoice-modal__total"><th scope="row">I alt</th><td class="invoice-modal__amt">' +
+      formatDkk(total) +
+      '</td></tr>' +
+      '</tfoot>' +
+      '</table>' +
+      '<div class="invoice-modal__actions">' +
+      '<button type="button" class="btn btn--ghost" data-close-invoice-modal>Luk demo</button>' +
+      '</div>' +
+      '</div>';
+
+    document.body.appendChild(modal);
+    document.body.classList.add('aendring-modal-open');
+    document.addEventListener('keydown', invoiceModalOnKeydown);
+    modal.addEventListener('click', function (ev) {
+      if (ev.target.closest('[data-close-invoice-modal]')) {
+        closeInvoiceDraftModal();
+      }
+    });
+    var closeBtn = modal.querySelector('.invoice-modal__actions [data-close-invoice-modal]');
+    if (closeBtn) closeBtn.focus();
   }
 
   /* —— Firm page —— */
@@ -320,7 +430,9 @@
               '<p class="order-item__note order-item__note--ok">✓ Godkendt — tillægsfaktura-kladde oprettet</p>';
             actions =
               '<div class="order-item__actions">' +
-              '<button type="button" class="btn btn--sm btn--ghost" disabled>Åbn tillægsfaktura (sketch)</button>' +
+              '<button type="button" class="btn btn--sm btn--outline" data-open-invoice="' +
+              escapeAttr(o.id) +
+              '">Åbn tillægsfaktura</button>' +
               '</div>';
           }
           if (o.status === 'rejected') {
@@ -382,6 +494,16 @@
 
     if (list) {
       list.addEventListener('click', function (ev) {
+        var openBtn = ev.target.closest('[data-open-invoice]');
+        if (openBtn) {
+          var orderId = openBtn.getAttribute('data-open-invoice');
+          data = load();
+          var invoiceOrder = data.orders.find(function (o) {
+            return o.id === orderId;
+          });
+          if (invoiceOrder) openInvoiceDraftModal(invoiceOrder, data);
+          return;
+        }
         var btn = ev.target.closest('[data-copy]');
         if (!btn) return;
         var id = btn.getAttribute('data-copy');
@@ -650,6 +772,9 @@
       }
       data.orders[idx].status = decision;
       data.orders[idx].decidedAt = Date.now();
+      if (decision === 'approved' && !data.orders[idx].invoiceDraftId) {
+        ensureInvoiceDraftId(data.orders[idx]);
+      }
       save(data);
       order = data.orders[idx];
       renderOrder();
