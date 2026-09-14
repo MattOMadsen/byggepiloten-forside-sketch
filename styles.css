@@ -596,25 +596,50 @@ a { color: inherit; }
 
 /* —— Atmosphere —— */
 .atmosphere {
-  padding: 4rem 1.25rem;
+  padding: 4.5rem 1.25rem;
   background:
-    radial-gradient(ellipse 60% 80% at 100% 0%, rgba(232, 243, 255, 0.9), transparent 55%),
+    radial-gradient(ellipse 70% 90% at 0% 100%, color-mix(in srgb, var(--bp-sky) 85%, transparent), transparent 55%),
+    radial-gradient(ellipse 60% 80% at 100% 0%, color-mix(in srgb, var(--bp-accent-soft) 70%, transparent), transparent 50%),
     var(--bp-bg);
 }
 .atmosphere__inner {
-  max-width: 720px;
+  max-width: 56rem;
   margin: 0 auto;
+  min-width: 0;
 }
-.atmosphere blockquote {
-  margin: 0 0 2.5rem;
-  padding: 0;
-  border: 0;
+.atmosphere__quote {
+  position: relative;
+  margin: 0 auto 3.25rem;
+  max-width: 40rem;
+  padding: 1.5rem 1.5rem 1.5rem 1.65rem;
+  border: 1px solid color-mix(in srgb, var(--bp-border) 80%, transparent);
+  border-radius: var(--bp-radius);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--bp-surface) 92%, var(--bp-sky)), var(--bp-surface));
+  box-shadow: 0 10px 32px rgba(12, 25, 41, 0.06);
+  border-left: 3px solid color-mix(in srgb, var(--bp-blue) 70%, var(--bp-accent));
+  overflow: hidden;
 }
-.atmosphere blockquote p {
+.atmosphere__mark {
+  position: absolute;
+  top: -0.15rem;
+  left: 0.55rem;
+  font-size: clamp(4.5rem, 12vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--bp-blue) 55%, var(--bp-accent));
+  opacity: 0.14;
+  pointer-events: none;
+  user-select: none;
+}
+.atmosphere__quote p {
+  position: relative;
+  z-index: 1;
   margin: 0;
-  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-size: clamp(1.2rem, 2.8vw, 1.55rem);
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.45;
   letter-spacing: -0.02em;
   color: var(--bp-ink);
 }
@@ -625,23 +650,65 @@ a { color: inherit; }
   padding: 0;
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
-.pillars li {
+.pillars__card {
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: 1.1rem 1.2rem;
-  border-radius: 14px;
+  align-items: flex-start;
+  gap: 0.95rem;
+  min-width: 0;
+  padding: 1.25rem 1.3rem;
+  border-radius: var(--bp-radius);
   background: var(--bp-surface);
   border: 1px solid var(--bp-border);
+  box-shadow: 0 8px 24px rgba(12, 25, 41, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.pillars strong {
-  font-size: 1rem;
+.pillars__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bp-sky) 75%, var(--bp-accent-soft));
+  color: var(--bp-blue);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bp-blue) 12%, transparent);
+}
+.pillars__card:nth-child(2) .pillars__icon {
+  background: var(--bp-accent-soft);
+  color: color-mix(in srgb, var(--bp-accent) 85%, var(--bp-ink));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bp-accent) 18%, transparent);
+}
+.pillars__card:nth-child(3) .pillars__icon {
+  background: color-mix(in srgb, var(--bp-sky) 55%, var(--bp-surface));
+  color: var(--bp-blue-dark);
+}
+.pillars__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.pillars__text strong {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--bp-ink);
 }
-.pillars span {
-  font-size: 0.9rem;
+.pillars__text span {
+  font-size: 0.92rem;
+  line-height: 1.4;
   color: var(--bp-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pillars__card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--bp-blue) 28%, var(--bp-border));
+    box-shadow: 0 14px 34px rgba(12, 25, 41, 0.1);
+  }
 }
 
 
@@ -1251,8 +1318,12 @@ a { color: inherit; }
     min-height: min(52vh, 28rem);
     padding: 2.5rem 0;
   }
+  .atmosphere {
+    padding-inline: 2rem;
+  }
   .pillars {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1.15rem;
   }
   .top-fag {
     padding-inline: 2rem;
@@ -1282,7 +1353,8 @@ a { color: inherit; }
   html { scroll-behavior: auto; }
   .layer,
   .beat-card,
-  .btn {
+  .btn,
+  .pillars__card {
     transition: none !important;
     animation: none !important;
     will-change: auto;
