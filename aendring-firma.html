@@ -39,7 +39,7 @@
     <p class="aendring-kicker">Firma · job i gang</p>
     <h1>Ekstraarbejde</h1>
     <p class="aendring-lead">
-      Send en pris på merarbejde. Kunden godkender via et link — uden at lede i appen.
+      Saml én eller flere poster i en pakke. Kunden godkender hele pakken via ét link — uden at lede i appen.
     </p>
     <div class="job-chip" id="job-chip"><strong>Nordisk Mur ApS</strong> · Badeværelse — fliser &amp; vådrum</div>
 
@@ -50,24 +50,23 @@
       <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:0.5rem">
         <div>
           <h2 id="co-title">Ændringsaftaler</h2>
-          <p class="sub">Beskrivelse + beløb ekskl. moms. Tillægsfaktura oprettes, når kunden godkender.</p>
+          <p class="sub">Flere linjer med beskrivelse + beløb ekskl. moms. Én kundegodkendelse for hele pakken. Tillægsfaktura oprettes, når kunden godkender.</p>
         </div>
         <button type="button" class="btn btn--primary btn--sm" id="toggle-create">Ændringsaftale</button>
       </div>
 
       <div id="create-panel" hidden>
         <form id="aendring-form" novalidate>
-          <div class="aendring-field">
-            <label for="co-desc">Beskrivelse</label>
-            <textarea id="co-desc" rows="3" placeholder="Fx ekstra stikkontakt i køkken, 2 timer" required></textarea>
+          <div class="line-items" id="line-items" aria-label="Ekstraarbejde-linjer"></div>
+          <div class="line-items-bar">
+            <button type="button" class="btn btn--sm btn--ghost" id="add-line">+ Tilføj linje</button>
+            <p class="line-running-total" id="running-total" aria-live="polite">
+              I alt: <strong>0&nbsp;kr.</strong> ekskl. moms
+            </p>
           </div>
-          <div class="aendring-field">
-            <label for="co-amount">Beløb (kr. ekskl. moms)</label>
-            <input id="co-amount" type="text" inputmode="decimal" placeholder="1800" required />
-            <p class="hint">Kunden ser også moms. Tillægsfaktura oprettes automatisk, når de godkender.</p>
-            <p class="error" id="co-amount-error"></p>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full">Send til kunden</button>
+          <p class="hint line-hint">Kunden ser linjerne og moms. Tillægsfaktura oprettes automatisk, når de godkender pakken.</p>
+          <p class="error" id="co-form-error"></p>
+          <button type="submit" class="btn btn--primary btn--full">Send pakke til kunden</button>
         </form>
       </div>
     </section>

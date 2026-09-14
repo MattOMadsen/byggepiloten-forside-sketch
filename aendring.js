@@ -1,11 +1,12 @@
 /**
  * Client-only Ændringsaftale demo (PR #36 UX mock).
+ * Multi-line ekstraarbejde package + one customer approve.
  * No live API — state in localStorage.
  */
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'bp-sketch-aendring-v1';
+  var STORAGE_KEY = 'bp-sketch-aendring-v2';
   var DEMO_FIRM = 'Nordisk Mur ApS';
   var DEMO_JOB = 'Badeværelse — fliser & vådrum';
   var MOMS = 0.25;
@@ -18,17 +19,77 @@
 
   function formatDkk(n) {
     var v = Math.round(Number(n) || 0);
-    return (
-      v.toLocaleString('da-DK') + '\u00a0kr.'
-    );
+    return v.toLocaleString('da-DK') + '\u00a0kr.';
+  }
+
+  function normalizeOrder(o) {
+    if (!o || typeof o !== 'object') return null;
+    var lines = Array.isArray(o.lines) ? o.lines.slice() : null;
+    if (!lines || !lines.length) {
+      if (o.description != null || o.amountDkk != null) {
+        lines = [
+          {
+            description: String(o.description || ''),
+            amountDkk: Math.round(Number(o.amountDkk) || 0),
+          },
+        ];
+      } else {
+        lines = [];
+      }
+    }
+    lines = lines
+      .map(function (l) {
+        return {
+          description: String((l && l.description) || '').trim(),
+          amountDkk: Math.round(Number((l && l.amountDkk) || 0)),
+        };
+      })
+      .filter(function (l) {
+        return l.description || l.amountDkk > 0;
+      });
+    var amountDkk = lines.reduce(function (sum, l) {
+      return sum + (l.amountDkk || 0);
+    }, 0);
+    var description =
+      lines.length === 0
+        ? ''
+        : lines.length === 1
+          ? lines[0].description
+          : lines.length + ' poster: ' + lines[0].description;
+    return {
+      id: o.id,
+      lines: lines,
+      description: description,
+      amountDkk: amountDkk,
+      status: o.status || 'pending',
+      createdAt: o.createdAt || Date.now(),
+      decidedAt: o.decidedAt,
+    };
   }
 
   function load() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return seed();
+      if (!raw) {
+        // migrate v1 if present
+        var legacy = localStorage.getItem('bp-sketch-aendring-v1');
+        if (legacy) {
+          var old = JSON.parse(legacy);
+          if (old && Array.isArray(old.orders)) {
+            var migrated = {
+              firmName: old.firmName || DEMO_FIRM,
+              jobLabel: old.jobLabel || DEMO_JOB,
+              orders: old.orders.map(normalizeOrder).filter(Boolean),
+            };
+            save(migrated);
+            return migrated;
+          }
+        }
+        return seed();
+      }
       var data = JSON.parse(raw);
       if (!data || !Array.isArray(data.orders)) return seed();
+      data.orders = data.orders.map(normalizeOrder).filter(Boolean);
       return data;
     } catch (e) {
       return seed();
@@ -40,13 +101,21 @@
       firmName: DEMO_FIRM,
       jobLabel: DEMO_JOB,
       orders: [
-        {
+        normalizeOrder({
           id: 'demo-1',
-          description: 'Ekstra stikkontakt i køkken, 2 timer',
-          amountDkk: 1800,
+          lines: [
+            {
+              description: 'Ekstra stikkontakt i køkken, 2 timer',
+              amountDkk: 1800,
+            },
+            {
+              description: 'Opgradering til vådrumsmembran i niche',
+              amountDkk: 2400,
+            },
+          ],
           status: 'pending',
           createdAt: Date.now() - 3600 * 1000,
-        },
+        }),
       ],
     };
     save(data);
@@ -104,6 +173,12 @@
     return Math.round(exMoms * (1 + MOMS));
   }
 
+  function sumLines(lines) {
+    return (lines || []).reduce(function (s, l) {
+      return s + (Math.round(Number(l.amountDkk) || 0));
+    }, 0);
+  }
+
   /* —— Firm page —— */
   function initFirma() {
     var data = load();
@@ -112,6 +187,10 @@
     var toastEl = document.getElementById('firma-toast');
     var draftMsg = document.getElementById('tillags-msg');
     var jobChip = document.getElementById('job-chip');
+    var linesHost = document.getElementById('line-items');
+    var runningEl = document.getElementById('running-total');
+    var formError = document.getElementById('co-form-error');
+    var lineSeq = 0;
 
     if (jobChip) {
       jobChip.innerHTML =
@@ -119,6 +198,97 @@
         escapeHtml(data.firmName) +
         '</strong> · ' +
         escapeHtml(data.jobLabel);
+    }
+
+    function updateRunningTotal() {
+      if (!runningEl || !linesHost) return;
+      var total = 0;
+      var inputs = linesHost.querySelectorAll('[data-line-amount]');
+      for (var i = 0; i < inputs.length; i++) {
+        var p = parseAmount(inputs[i].value);
+        if (p != null) total += p;
+      }
+      runningEl.innerHTML =
+        'I alt: <strong>' + formatDkk(total) + '</strong> ekskl. moms';
+    }
+
+    function syncRemoveButtons() {
+      if (!linesHost) return;
+      var rows = linesHost.querySelectorAll('.line-row');
+      var onlyOne = rows.length <= 1;
+      for (var i = 0; i < rows.length; i++) {
+        var btn = rows[i].querySelector('[data-remove-line]');
+        if (btn) btn.disabled = onlyOne;
+      }
+    }
+
+    function addLineRow(preset) {
+      if (!linesHost) return;
+      lineSeq += 1;
+      var id = 'line-' + lineSeq;
+      var row = document.createElement('div');
+      row.className = 'line-row';
+      row.dataset.lineId = id;
+      row.innerHTML =
+        '<div class="line-row__desc">' +
+        '<label for="' +
+        id +
+        '-desc">Beskrivelse</label>' +
+        '<textarea id="' +
+        id +
+        '-desc" rows="2" data-line-desc placeholder="Fx ekstra stikkontakt i køkken, 2 timer" required></textarea>' +
+        '</div>' +
+        '<div class="line-row__amt">' +
+        '<label for="' +
+        id +
+        '-amt">Beløb (ekskl. moms)</label>' +
+        '<input id="' +
+        id +
+        '-amt" type="text" inputmode="decimal" data-line-amount placeholder="1800" required />' +
+        '</div>' +
+        '<button type="button" class="btn btn--sm btn--ghost line-row__remove" data-remove-line aria-label="Fjern linje">Fjern</button>';
+      linesHost.appendChild(row);
+      if (preset) {
+        var ta = row.querySelector('[data-line-desc]');
+        var inp = row.querySelector('[data-line-amount]');
+        if (ta && preset.description) ta.value = preset.description;
+        if (inp && preset.amountDkk != null) inp.value = String(preset.amountDkk);
+      }
+      syncRemoveButtons();
+      updateRunningTotal();
+    }
+
+    function resetLines() {
+      if (!linesHost) return;
+      linesHost.innerHTML = '';
+      lineSeq = 0;
+      addLineRow();
+    }
+
+    if (linesHost) {
+      resetLines();
+      linesHost.addEventListener('input', function (ev) {
+        if (ev.target.matches('[data-line-amount], [data-line-desc]')) {
+          updateRunningTotal();
+        }
+      });
+      linesHost.addEventListener('click', function (ev) {
+        var btn = ev.target.closest('[data-remove-line]');
+        if (!btn || btn.disabled) return;
+        var row = btn.closest('.line-row');
+        if (row) row.remove();
+        syncRemoveButtons();
+        updateRunningTotal();
+      });
+    }
+
+    var addBtn = document.getElementById('add-line');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        addLineRow();
+        var last = linesHost && linesHost.querySelector('.line-row:last-child [data-line-desc]');
+        if (last) last.focus();
+      });
     }
 
     function render() {
@@ -157,6 +327,27 @@
             note =
               '<p class="order-item__note order-item__note--bad">✕ Afvist</p>';
           }
+          var linesHtml = '';
+          if (o.lines && o.lines.length) {
+            linesHtml =
+              '<ul class="order-item__lines">' +
+              o.lines
+                .map(function (l) {
+                  return (
+                    '<li><span>' +
+                    escapeHtml(l.description) +
+                    '</span><span class="amt">' +
+                    formatDkk(l.amountDkk) +
+                    '</span></li>'
+                  );
+                })
+                .join('') +
+              '</ul>' +
+              '<p class="order-item__count">' +
+              o.lines.length +
+              (o.lines.length === 1 ? ' linje' : ' linjer') +
+              ' · pakke</p>';
+          }
           return (
             '<li class="order-item" data-id="' +
             escapeAttr(o.id) +
@@ -167,9 +358,7 @@
             formatDkk(o.amountDkk) +
             ' ekskl. moms</span>' +
             '</div>' +
-            '<p class="order-item__desc">' +
-            escapeHtml(o.description) +
-            '</p>' +
+            linesHtml +
             note +
             actions +
             '</li>'
@@ -219,41 +408,67 @@
     if (form) {
       form.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        var descEl = document.getElementById('co-desc');
-        var amtEl = document.getElementById('co-amount');
-        var errEl = document.getElementById('co-amount-error');
-        var desc = (descEl.value || '').trim().replace(/\s+/g, ' ');
-        var parsed = parseAmount(amtEl.value);
-        if (errEl) errEl.textContent = '';
-        if (!desc) {
-          toast(toastEl, 'Skriv en kort beskrivelse af ekstraarbejdet', 'err');
+        if (formError) formError.textContent = '';
+        if (!linesHost) return;
+        var rows = linesHost.querySelectorAll('.line-row');
+        var collected = [];
+        var err = '';
+        for (var i = 0; i < rows.length; i++) {
+          var descEl = rows[i].querySelector('[data-line-desc]');
+          var amtEl = rows[i].querySelector('[data-line-amount]');
+          var desc = (descEl.value || '').trim().replace(/\s+/g, ' ');
+          var parsed = parseAmount(amtEl.value);
+          if (!desc && !String(amtEl.value || '').trim()) continue;
+          if (!desc) {
+            err = 'Udfyld beskrivelse på alle linjer med beløb';
+            break;
+          }
+          if (parsed == null) {
+            err = 'Angiv beløb i hele kr. (min. 1) på hver linje';
+            break;
+          }
+          collected.push({
+            description: desc.slice(0, 2000),
+            amountDkk: parsed,
+          });
+        }
+        if (err) {
+          if (formError) formError.textContent = err;
+          toast(toastEl, err, 'err');
           return;
         }
-        if (parsed == null) {
-          if (errEl) errEl.textContent = 'Angiv beløb i hele kr. (min. 1)';
-          toast(toastEl, 'Angiv et gyldigt beløb', 'err');
+        if (!collected.length) {
+          err = 'Tilføj mindst én linje med beskrivelse og beløb';
+          if (formError) formError.textContent = err;
+          toast(toastEl, err, 'err');
           return;
         }
         data = load();
-        data.orders.push({
+        var order = normalizeOrder({
           id: 'demo-' + Date.now().toString(36),
-          description: desc.slice(0, 2000),
-          amountDkk: parsed,
+          lines: collected,
           status: 'pending',
           createdAt: Date.now(),
         });
+        data.orders.push(order);
         save(data);
-        descEl.value = '';
-        amtEl.value = '';
+        resetLines();
         toast(
           toastEl,
-          'Sendt til kunden — de godkender via linket i mailen (demo)',
+          'Pakke sendt til kunden — de godkender alle ' +
+            collected.length +
+            (collected.length === 1 ? ' linje' : ' linjer') +
+            ' via ét link (demo)',
           'ok'
         );
         var panel = document.getElementById('create-panel');
         if (panel) panel.hidden = true;
         var toggle = document.getElementById('toggle-create');
-        if (toggle) toggle.textContent = 'Ændringsaftale';
+        if (toggle) {
+          toggle.textContent = 'Ændringsaftale';
+          toggle.classList.add('btn--primary');
+          toggle.classList.remove('btn--ghost');
+        }
         render();
       });
     }
@@ -268,6 +483,7 @@
         toggle.textContent = open ? 'Annuller' : 'Ændringsaftale';
         toggle.classList.toggle('btn--primary', open);
         toggle.classList.toggle('btn--ghost', !open);
+        if (open && linesHost && !linesHost.children.length) resetLines();
       });
     }
 
@@ -275,8 +491,10 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
         localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('bp-sketch-aendring-v1');
         seed();
         clearToast(toastEl);
+        resetLines();
         render();
         toast(toastEl, 'Demo nulstillet', 'info');
       });
@@ -323,9 +541,11 @@
         data.orders.find(function (o) {
           return o.id === order.id;
         }) || order;
+      order = normalizeOrder(order);
 
       var pending = order.status === 'pending';
-      var total = customerTotal(order.amountDkk);
+      var ex = sumLines(order.lines);
+      var total = customerTotal(ex);
       var statusBlock = '';
       if (!pending) {
         statusBlock =
@@ -335,7 +555,7 @@
           (order.status === 'approved' ? '✓ ' : '✕ ') +
           STATUS_LABEL[order.status] +
           (order.status === 'approved'
-            ? ' — firmaet opretter tillægsfaktura ud fra denne pris.'
+            ? ' — firmaet opretter tillægsfaktura ud fra denne pakke.'
             : '.') +
           '</p>';
         if (order.status === 'approved') {
@@ -350,10 +570,33 @@
       if (pending) {
         actions =
           '<div class="aendring-actions aendring-actions--row">' +
-          '<button type="button" class="btn btn--primary btn--full" id="btn-approve">Godkend</button>' +
+          '<button type="button" class="btn btn--primary btn--full" id="btn-approve">Godkend pakke</button>' +
           '<button type="button" class="btn btn--ghost btn--full" id="btn-reject">Afvis</button>' +
           '</div>';
       }
+
+      var linesBlock =
+        '<p class="desc-box" style="padding:0.65rem 0.85rem;margin-bottom:0.35rem">' +
+        '<span class="label" style="display:block">Ekstraarbejde (' +
+        order.lines.length +
+        (order.lines.length === 1 ? ' linje' : ' linjer') +
+        ')</span></p>' +
+        '<ul class="pakke-lines">' +
+        order.lines
+          .map(function (l) {
+            return (
+              '<li class="pakke-line">' +
+              '<p class="pakke-line__desc">' +
+              escapeHtml(l.description) +
+              '</p>' +
+              '<p class="pakke-line__amt">' +
+              formatDkk(l.amountDkk) +
+              '</p>' +
+              '</li>'
+            );
+          })
+          .join('') +
+        '</ul>';
 
       root.innerHTML =
         '<div class="aendring-card">' +
@@ -364,13 +607,11 @@
         ' · ' +
         escapeHtml(data.jobLabel) +
         '</p>' +
-        '<div class="desc-box"><p class="label">Beskrivelse</p><p>' +
-        escapeHtml(order.description) +
-        '</p></div>' +
+        linesBlock +
         '<div class="price-box">' +
-        '<p class="label">Pris</p>' +
+        '<p class="label">Pakke i alt</p>' +
         '<p class="big">' +
-        formatDkk(order.amountDkk) +
+        formatDkk(ex) +
         ' ekskl. moms</p>' +
         '<p class="total">' +
         formatDkk(total) +
@@ -379,7 +620,7 @@
         statusBlock +
         '<div id="kunde-toast-slot"></div>' +
         actions +
-        '<p class="legal-note">Dette er en kommerciel godkendelse af merarbejde og pris — ikke et juridisk dokument. Du behøver ikke oprette en konto for at svare.</p>' +
+        '<p class="legal-note">Dette er en kommerciel godkendelse af merarbejde og pris for hele pakken — ikke et juridisk dokument. Du behøver ikke oprette en konto for at svare.</p>' +
         '</div>';
 
       var approve = document.getElementById('btn-approve');
