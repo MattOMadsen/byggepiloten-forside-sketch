@@ -4,13 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>SKETCH — Opret privat opgave</title>
+  <title>SKETCH — Opret privat · ByggePiloten</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="page-privat">
+<body class="page-privat opret-page">
+  <div class="sketch-banner" role="status">
+    <strong>Sketch / kladde</strong> — ikke live API. UI-preview til mobil ·
+    <a href="https://byggepiloten.dk/opret/privat">Åbn live privat</a>
+  </div>
+
   <header class="site-header">
     <a class="logo" href="index.html" aria-label="ByggePiloten">
       <img class="logo-mark" src="icon-192.svg" width="36" height="36" alt="" />
@@ -30,117 +35,104 @@
   </header>
 
   <main>
-    <section class="flow-hero scene" data-scene="flow">
-      <div class="parallax parallax--short" aria-hidden="true">
-        <div class="layer layer--sky" data-depth="0.06"></div>
-        <div class="layer layer--haze" data-depth="0.14"></div>
-        <div class="layer layer--hills-far" data-depth="0.24"></div>
-        <div class="layer layer--hills-mid" data-depth="0.36"></div>
+    <div class="flow-shell">
+      <div class="trust-strip" aria-label="Kort fortalt">
+        <span class="trust-pill">Ingen abonnement</span>
+        <span class="trust-pill">Lokale firmaer</span>
+        <span class="trust-pill">Gratis at oprette</span>
       </div>
-      <div class="flow-hero__content">
+
+      <header class="flow-head">
+        <div class="flow-head__bar" aria-hidden="true"></div>
         <p class="eyebrow">Privat</p>
         <h1>Skriv opgaven</h1>
         <p class="lede">
           Beskriv hvad der skal laves — gratis, uforpligtende, uden abonnement.
-          Dette er en sketch af flowet, ikke det rigtige system.
         </p>
-      </div>
-    </section>
+      </header>
 
-    <div class="flow-shell" id="flow-form">
       <div class="flow-card" data-flow="privat">
-        <div class="flow-progress">
-          <ol class="flow-steps" aria-label="Trin">
-            <li class="is-on" data-label="Opgave"><span class="flow-steps__dot">1</span></li>
-            <li data-label="Detaljer"><span class="flow-steps__dot">2</span></li>
-            <li data-label="Kontakt"><span class="flow-steps__dot">3</span></li>
-            <li data-label="Klar"><span class="flow-steps__dot">4</span></li>
-          </ol>
-          <p class="flow-progress__current"><strong>Trin 1</strong> — Opgave</p>
-        </div>
-
         <div class="flow-panel is-active" data-step="0">
-          <h2>Hvad skal laves?</h2>
-          <p class="hint">Vælg et fag — eller skriv frit i næste trin.</p>
-          <div class="chip-row" role="group" aria-label="Fag">
-            <button type="button" class="chip is-selected">Murer</button>
-            <button type="button" class="chip">Tømrer</button>
-            <button type="button" class="chip">Tagdækker</button>
-            <button type="button" class="chip">Belægning</button>
-            <button type="button" class="chip">Elektriker</button>
-            <button type="button" class="chip">VVS</button>
-            <button type="button" class="chip">Maler</button>
-            <button type="button" class="chip">Anlægsgartner</button>
-            <button type="button" class="chip">Isolering</button>
-            <button type="button" class="chip">Andet</button>
-          </div>
-          <div class="flow-actions">
-            <a class="btn btn--ghost" href="index.html">← Forside</a>
-            <button type="button" class="btn btn--primary" data-flow-next>Næste</button>
-          </div>
-        </div>
+          <section class="field-group" aria-labelledby="p-fag-title">
+            <h2 id="p-fag-title" class="field-group__title">Hvad skal laves?</h2>
+            <p class="field-group__hint">Vælg et fag — eller Andet.</p>
+            <div class="chip-row" role="group" aria-label="Fag">
+              <button type="button" class="chip is-selected">Murer</button>
+              <button type="button" class="chip">Tømrer</button>
+              <button type="button" class="chip">Tagdækker</button>
+              <button type="button" class="chip">Belægning</button>
+              <button type="button" class="chip">Elektriker</button>
+              <button type="button" class="chip">VVS</button>
+              <button type="button" class="chip">Maler</button>
+              <button type="button" class="chip">Anlægsgartner</button>
+              <button type="button" class="chip">Isolering</button>
+              <button type="button" class="chip">Andet</button>
+            </div>
+          </section>
 
-        <div class="flow-panel" data-step="1">
-          <h2>Beskriv opgaven</h2>
-          <p class="hint">Brug dine egne ord. Jo klarere, jo bedre bud.</p>
-          <div class="field">
-            <label for="p-title">Kort titel</label>
-            <input id="p-title" type="text" value="Maler badeværelse" readonly />
-          </div>
-          <div class="field">
-            <label for="p-desc">Beskrivelse</label>
-            <textarea id="p-desc" readonly>Badeværelse ca. 6 m². Loft og vægge skal males. Fliser bliver. Gerne start inden for 3–4 uger.</textarea>
-          </div>
-          <div class="field">
-            <label for="p-zip">Postnummer</label>
-            <input id="p-zip" type="text" value="5000" readonly />
-          </div>
-          <div class="flow-actions">
-            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
-            <button type="button" class="btn btn--primary" data-flow-next>Næste</button>
-          </div>
-        </div>
+          <section class="field-group" aria-labelledby="p-opgave-title">
+            <h2 id="p-opgave-title" class="field-group__title">Hvad går opgaven ud på?</h2>
+            <p class="field-group__hint">Jo klarere du er, jo bedre bud får du.</p>
+            <div class="field">
+              <label for="p-title">Kort titel</label>
+              <input id="p-title" type="text" value="Maler badeværelse" readonly />
+            </div>
+            <div class="field">
+              <label for="p-desc" class="sr-only">Hvad går opgaven ud på?</label>
+              <textarea id="p-desc" placeholder="Fx: Badeværelse ca. 6 m² — loft og vægge males. Fliser bliver. Gerne start om 3–4 uger." readonly>Badeværelse ca. 6 m². Loft og vægge skal males. Fliser bliver. Gerne start inden for 3–4 uger.</textarea>
+            </div>
+            <div class="field-row field-row--2">
+              <div class="field">
+                <label for="p-zip">Postnummer</label>
+                <input id="p-zip" type="text" inputmode="numeric" value="5000" readonly />
+                <p class="field-hint">4 cifre</p>
+              </div>
+              <div class="field">
+                <label for="p-city">By</label>
+                <input id="p-city" type="text" value="Odense" readonly />
+              </div>
+            </div>
+          </section>
 
-        <div class="flow-panel" data-step="2">
-          <h2>Så firmærne kan svare dig</h2>
-          <p class="hint">Sketch-felter — sendes ikke nogen steder.</p>
-          <div class="field">
-            <label for="p-name">Navn</label>
-            <input id="p-name" type="text" value="Anna Jensen" readonly />
-          </div>
-          <div class="field">
-            <label for="p-mail">E-mail</label>
-            <input id="p-mail" type="email" value="anna@example.dk" readonly />
-          </div>
-          <div class="field">
-            <label for="p-phone">Telefon</label>
-            <input id="p-phone" type="tel" value="12 34 56 78" readonly />
-          </div>
-          <div class="flow-actions">
-            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
-            <button type="button" class="btn btn--primary" data-flow-next>Se oversigt</button>
-          </div>
-        </div>
+          <section class="field-group" aria-labelledby="p-kontakt-title">
+            <h2 id="p-kontakt-title" class="field-group__title">Så firmærne kan svare dig</h2>
+            <p class="field-group__hint">Sketch-felter — sendes ikke nogen steder.</p>
+            <div class="field">
+              <label for="p-name">Fulde navn</label>
+              <input id="p-name" type="text" value="Anna Jensen" readonly />
+            </div>
+            <div class="field">
+              <label for="p-mail">E-mail</label>
+              <input id="p-mail" type="email" value="anna@example.dk" readonly />
+            </div>
+            <div class="field">
+              <label for="p-phone">Telefon <span style="font-weight:500;color:var(--bp-muted)">(valgfrit)</span></label>
+              <input id="p-phone" type="tel" value="12 34 56 78" readonly />
+            </div>
+          </section>
 
-        <div class="flow-panel" data-step="3">
-          <h2>Klar til at sende</h2>
-          <p class="hint">I den rigtige app ville opgaven nu gå til lokale firmaer.</p>
-          <ul class="summary-list">
+          <ul class="summary-list" aria-label="Kort oversigt">
             <li><span>Kategori</span><strong>Maler</strong></li>
             <li><span>Område</span><strong>5000 Odense</strong></li>
             <li><span>Pris for dig</span><strong>Gratis · uforpligtende</strong></li>
-            <li><span>Abonnement</span><strong>Ingen</strong></li>
           </ul>
+
           <p class="mock-note">
-            Mock-oversigt. Intet bliver oprettet her.
-            Live flow: <a href="https://byggepiloten.dk/opret/privat">byggepiloten.dk/opret/privat</a>
+            Mock-formular. Intet bliver oprettet her.
+            Live: <a href="https://byggepiloten.dk/opret/privat">byggepiloten.dk/opret/privat</a>
           </p>
+
           <div class="flow-actions">
-            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
+            <a class="btn btn--ghost" href="index.html">← Forside</a>
             <a class="btn btn--primary" href="https://byggepiloten.dk/opret/privat">Åbn live privat-flow</a>
           </div>
         </div>
       </div>
+
+      <p class="opret-footer-note">
+        Firma i stedet? <a href="opret-firma.html">Opret firmaprofil</a>
+        · Allerede bruger? <a href="https://byggepiloten.dk/login">Log ind</a>
+      </p>
     </div>
   </main>
 
@@ -152,11 +144,6 @@
       <a href="opret-firma.html">Opret firma</a>
       <a href="fremtid.html">Fremtid (kladde)</a>
       <a href="aendring-firma.html">Ændringsaftale (kladde)</a>
-      <a href="https://byggepiloten.dk/guide">Sådan fungerer det</a>
-      <a href="https://byggepiloten.dk/guide/privat">Hvorfor privat</a>
-      <a href="https://byggepiloten.dk/guide/privat/brug">Brug privat</a>
-      <a href="https://byggepiloten.dk/guide/firma">Hvorfor firma</a>
-      <a href="https://byggepiloten.dk/guide/firma/brug">Brug firma</a>
       <a href="https://byggepiloten.dk">Live site</a>
     </nav>
     <p class="muted">Gratis · uforpligtende · ingen abonnement</p>
