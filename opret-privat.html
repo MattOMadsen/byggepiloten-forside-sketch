@@ -55,25 +55,25 @@
       <div class="flow-card" data-flow="privat">
         <div class="flow-panel is-active" data-step="0">
           <section class="field-group" aria-labelledby="p-fag-title">
-            <h2 id="p-fag-title" class="field-group__title">Hvad skal laves?</h2>
-            <p class="field-group__hint">Vælg et fag — eller Andet.</p>
-            <div class="chip-row" role="group" aria-label="Fag">
-              <button type="button" class="chip is-selected">Murer</button>
-              <button type="button" class="chip">Tømrer</button>
-              <button type="button" class="chip">Tagdækker</button>
-              <button type="button" class="chip">Belægning</button>
-              <button type="button" class="chip">Elektriker</button>
-              <button type="button" class="chip">VVS</button>
-              <button type="button" class="chip">Maler</button>
-              <button type="button" class="chip">Anlægsgartner</button>
-              <button type="button" class="chip">Isolering</button>
-              <button type="button" class="chip">Andet</button>
+            <h2 id="p-fag-title" class="field-group__title">Hvilke fag skal der til?</h2>
+            <p class="field-group__hint">Vælg ét eller flere fag, hvis opgaven kræver mere end ét — eller Andet.</p>
+            <div class="chip-row" data-multi="true" role="group" aria-label="Fag">
+              <button type="button" class="chip is-selected" aria-pressed="true">Murer</button>
+              <button type="button" class="chip" aria-pressed="false">Tømrer</button>
+              <button type="button" class="chip" aria-pressed="false">Tagdækker</button>
+              <button type="button" class="chip" aria-pressed="false">Belægning</button>
+              <button type="button" class="chip" aria-pressed="false">Elektriker</button>
+              <button type="button" class="chip" aria-pressed="false">VVS</button>
+              <button type="button" class="chip" aria-pressed="false">Maler</button>
+              <button type="button" class="chip" aria-pressed="false">Anlægsgartner</button>
+              <button type="button" class="chip" aria-pressed="false">Isolering</button>
+              <button type="button" class="chip" aria-pressed="false">Andet</button>
             </div>
           </section>
 
           <section class="field-group" aria-labelledby="p-opgave-title">
             <h2 id="p-opgave-title" class="field-group__title">Hvad går opgaven ud på?</h2>
-            <p class="field-group__hint">Jo klarere du er, jo bedre bud får du.</p>
+            <p class="field-group__hint">Jo klarere du er, jo bedre bud får dig.</p>
             <div class="field">
               <label for="p-title">Kort titel</label>
               <input id="p-title" type="text" value="Maler badeværelse" readonly />
