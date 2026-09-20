@@ -1,1 +1,189 @@
-@file:/workspace/byggepiloten-forside-sketch/opret-firma.html
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>SKETCH — Opret firma · ByggePiloten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="opret.css" />
+  <link rel="stylesheet" href="role-tabs.css" />
+</head>
+<body class="page-firma opret-page">
+  <div class="sketch-banner" role="status">
+    <strong>Sketch / kladde</strong> — ikke live API. UI-preview til mobil ·
+    <a href="https://byggepiloten.dk/opret/firma">Åbn live firma</a>
+  </div>
+
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="ByggePiloten">
+      <img class="logo-mark" src="icon-192.svg" width="36" height="36" alt="" />
+      <span class="logo-text">Bygge<wbr>Piloten</span>
+    </a>
+    <nav class="site-nav" aria-label="Sketch-sider">
+      <a class="nav-link" href="index.html">Forside</a>
+      <a class="nav-link" href="opret-privat.html">Privat</a>
+      <a class="nav-link is-active" href="opret-firma.html">Firma</a>
+      <a class="nav-link" href="fremtid.html">Fremtid (kladde)</a>
+      <a class="nav-link" href="aendring-firma.html">Ændringsaftale (kladde)</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn--login btn--sm" href="https://byggepiloten.dk/login">Log ind</a>
+      <a class="btn btn--ghost btn--sm" href="https://byggepiloten.dk/guide">Guide</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="flow-shell">
+      <div class="trust-strip" aria-label="Kort fortalt">
+        <span class="trust-pill">Intet abonnement</span>
+        <span class="trust-pill">Lokale opgaver</span>
+        <span class="trust-pill">Bud i din radius</span>
+      </div>
+
+      <header class="flow-head">
+        <div class="flow-head__bar" aria-hidden="true"></div>
+        <p class="eyebrow">Firma</p>
+        <h1>Opret firmaprofil</h1>
+        <p class="lede">
+          Registrer firmaet, vælg fag og sæt arbejdsradius — uden abonnement.
+        </p>
+      </header>
+
+      <nav class="role-tabs" aria-label="Vælg rolle">
+        <a class="role-tabs__tab" href="opret-privat.html">
+          <svg class="role-tabs__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Privat / opgave</span>
+        </a>
+        <a class="role-tabs__tab is-active" href="opret-firma.html" aria-current="page">
+          <svg class="role-tabs__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+          <span>Firma</span>
+        </a>
+      </nav>
+
+      <div class="flow-card" data-flow="firma">
+        <div class="flow-progress">
+          <ol class="flow-steps" aria-label="Trin">
+            <li class="is-on" data-label="Firma & fag">
+              <span class="flow-steps__dot">1</span>
+              <span class="hide-sm">Firma & fag</span>
+            </li>
+            <li data-label="Område">
+              <span class="flow-steps__dot">2</span>
+              <span class="hide-sm">Område</span>
+            </li>
+          </ol>
+          <p class="flow-progress__current"><strong>Trin 1</strong> — Firma & fag</p>
+        </div>
+
+        <div class="flow-panel is-active" data-step="0">
+          <section class="field-group" aria-labelledby="f-firma-title">
+            <h2 id="f-firma-title" class="field-group__title">Om firmaet</h2>
+            <p class="field-group__hint">Grundoplysninger — mock-felter.</p>
+            <div class="field">
+              <label for="f-name">Firmanavn</label>
+              <input id="f-name" type="text" value="Nordisk Mur ApS" readonly />
+            </div>
+            <div class="field-row field-row--2">
+              <div class="field">
+                <label for="f-cvr">CVR</label>
+                <input id="f-cvr" type="text" inputmode="numeric" value="12345678" readonly />
+              </div>
+              <div class="field">
+                <label for="f-mail">Firma-e-mail</label>
+                <input id="f-mail" type="email" value="kontakt@nordiskmur.dk" readonly />
+              </div>
+            </div>
+          </section>
+
+          <section class="field-group" aria-labelledby="f-fag-title">
+            <h2 id="f-fag-title" class="field-group__title">Hvilke fag dækker I?</h2>
+            <p class="field-group__hint">Vælg én eller flere (sketch).</p>
+            <div class="chip-row" data-multi="true" role="group" aria-label="Fag">
+              <button type="button" class="chip is-selected" aria-pressed="true">Murer</button>
+              <button type="button" class="chip" aria-pressed="false">Tømrer</button>
+              <button type="button" class="chip" aria-pressed="false">Tagdækker</button>
+              <button type="button" class="chip" aria-pressed="false">Belægning</button>
+              <button type="button" class="chip" aria-pressed="false">Elektriker</button>
+              <button type="button" class="chip" aria-pressed="false">VVS</button>
+              <button type="button" class="chip" aria-pressed="false">Maler</button>
+              <button type="button" class="chip" aria-pressed="false">Anlægsgartner</button>
+              <button type="button" class="chip" aria-pressed="false">Isolering</button>
+              <button type="button" class="chip" aria-pressed="false">Andet</button>
+            </div>
+          </section>
+
+          <div class="flow-actions">
+            <a class="btn btn--ghost" href="index.html">← Forside</a>
+            <button type="button" class="btn btn--primary" data-flow-next>Næste</button>
+          </div>
+        </div>
+
+        <div class="flow-panel" data-step="1">
+          <section class="field-group" aria-labelledby="f-omrade-title">
+            <h2 id="f-omrade-title" class="field-group__title">Hvor arbejder I?</h2>
+            <p class="field-group__hint">Postnummer og radius — til lokale opgaver.</p>
+            <div class="field-row field-row--2">
+              <div class="field">
+                <label for="f-zip">Hvor arbejder I fra? (postnummer)</label>
+                <input id="f-zip" type="text" inputmode="numeric" value="5000" readonly />
+              </div>
+              <div class="field">
+                <label for="f-radius">Radius</label>
+                <select id="f-radius" disabled>
+                  <option>Op til 30 km</option>
+                  <option selected>Op til 50 km</option>
+                  <option>Op til 80 km</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="field-group" aria-labelledby="f-klar-title">
+            <h2 id="f-klar-title" class="field-group__title">Profil klar (sketch)</h2>
+            <p class="field-group__hint">I den rigtige app ville I nu kunne se relevante opgaver.</p>
+            <ul class="summary-list">
+              <li><span>Firma</span><strong>Nordisk Mur ApS</strong></li>
+              <li><span>Fag</span><strong>Murer</strong></li>
+              <li><span>Område</span><strong>5000 · 50 km</strong></li>
+              <li><span>For private</span><strong>Gratis · uforpligtende</strong></li>
+            </ul>
+            <p class="mock-note">
+              Mock-flow. Intet firma oprettes her.
+              Live: <a href="https://byggepiloten.dk/opret/firma">byggepiloten.dk/opret/firma</a>
+            </p>
+          </section>
+
+          <div class="flow-actions">
+            <button type="button" class="btn btn--ghost" data-flow-prev>Tilbage</button>
+            <a class="btn btn--primary" href="https://byggepiloten.dk/opret/firma">Åbn live firma-flow</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="opret-footer-note">
+        Privat i stedet? <a href="opret-privat.html">Skriv opgaven</a>
+        · Allerede bruger? <a href="https://byggepiloten.dk/login">Log ind</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>ByggePiloten</strong> — sketch: opret firma</p>
+    <nav class="footer-nav" aria-label="Sketch-navigation">
+      <a href="index.html">Forside</a>
+      <a href="opret-privat.html">Opret privat</a>
+      <a href="opret-firma.html">Opret firma</a>
+      <a href="fremtid.html">Fremtid (kladde)</a>
+      <a href="aendring-firma.html">Ændringsaftale (kladde)</a>
+      <a href="https://byggepiloten.dk">Live site</a>
+    </nav>
+    <p class="muted">Gratis · uforpligtende · ingen abonnement</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
