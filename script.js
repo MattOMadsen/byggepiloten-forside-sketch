@@ -46,7 +46,6 @@
       }
 
       if (scrollRail && beats[i] && !reduceMotion) {
-        /* Don't yank the page on every swipe — only when user clicks a dot */
         syncingFromScroll = true;
         beats[i].scrollIntoView({
           behavior: "smooth",
@@ -89,7 +88,6 @@
       { passive: true }
     );
 
-    /* Pointer drag for desktop (mouse) — touch uses native scroll */
     let drag = null;
     stack.addEventListener("pointerdown", (e) => {
       if (e.pointerType === "touch") return;
@@ -133,7 +131,6 @@
       return;
     }
 
-    /* Vertical rail still drives which card is active on desktop sticky layout */
     if (beats.length) {
       const io = new IntersectionObserver(
         (entries) => {
@@ -154,13 +151,10 @@
     setActive(0);
   }
 
-  /* —— Layered parallax on scroll —— */
   function initParallax() {
     if (reduceMotion) return;
-
     const scenes = document.querySelectorAll(".scene, .flow-hero");
     const layers = [];
-
     scenes.forEach((scene) => {
       scene.querySelectorAll("[data-depth]").forEach((el) => {
         layers.push({
@@ -170,11 +164,8 @@
         });
       });
     });
-
     if (!layers.length) return;
-
     let ticking = false;
-
     function update() {
       ticking = false;
       const vh = window.innerHeight;
@@ -185,32 +176,24 @@
         el.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0)`;
       });
     }
-
     function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(update);
     }
-
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     update();
   }
 
-  /* —— Soft ambient fog particles (BP sky tint) —— */
   function initFog() {
     const canvas = document.getElementById("fog");
     if (!canvas || reduceMotion) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    let w = 0;
-    let h = 0;
-    let raf = 0;
+    let w = 0, h = 0, raf = 0;
     const particles = [];
     const COUNT = 28;
-
     function resize() {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -220,7 +203,6 @@
       canvas.height = Math.floor(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-
     function spawn(p) {
       p.x = Math.random() * w;
       p.y = Math.random() * h;
@@ -229,7 +211,6 @@
       p.vx = (Math.random() - 0.5) * 0.15;
       p.vy = -0.04 - Math.random() * 0.08;
     }
-
     function initParticles() {
       particles.length = 0;
       for (let i = 0; i < COUNT; i++) {
@@ -238,7 +219,6 @@
         particles.push(p);
       }
     }
-
     function frame() {
       ctx.clearRect(0, 0, w, h);
       for (const p of particles) {
@@ -255,23 +235,16 @@
       }
       raf = requestAnimationFrame(frame);
     }
-
     resize();
     initParticles();
     frame();
-
     window.addEventListener("resize", () => resize(), { passive: true });
-
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        cancelAnimationFrame(raf);
-      } else {
-        raf = requestAnimationFrame(frame);
-      }
+      if (document.hidden) cancelAnimationFrame(raf);
+      else raf = requestAnimationFrame(frame);
     });
   }
 
-  /* —— Soft header shadow on scroll —— */
   function initHeader() {
     const header = document.querySelector(".site-header");
     if (!header) return;
@@ -283,19 +256,15 @@
     onScroll();
   }
 
-  /* —— Mock multi-step flow (sketch only) —— */
   function initFlow() {
     const root = document.querySelector("[data-flow]");
     if (!root) return;
-
     const panels = Array.from(root.querySelectorAll(".flow-panel"));
     const steps = Array.from(root.querySelectorAll(".flow-steps li"));
     const nextBtns = root.querySelectorAll("[data-flow-next]");
     const prevBtns = root.querySelectorAll("[data-flow-prev]");
     let i = 0;
-
     const progressLabel = root.querySelector(".flow-progress__current");
-
     function show(n) {
       i = Math.max(0, Math.min(n, panels.length - 1));
       panels.forEach((p, idx) => p.classList.toggle("is-active", idx === i));
@@ -309,20 +278,20 @@
           "<strong>Trin " + (i + 1) + "</strong>" + (label ? " — " + label : "");
       }
     }
-
     nextBtns.forEach((btn) =>
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         show(i + 1);
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
       })
     );
     prevBtns.forEach((btn) =>
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         show(i - 1);
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
       })
     );
-
     root.querySelectorAll(".chip").forEach((chip) => {
       chip.addEventListener("click", () => {
         const group = chip.closest(".chip-row");
@@ -335,12 +304,9 @@
         }
       });
     });
-
     show(0);
   }
 
-
-  /* —— Scroll cue (under story card) —— */
   function initScrollCue() {
     document.querySelectorAll("[data-scroll-to]").forEach((cue) => {
       cue.addEventListener("click", (e) => {
