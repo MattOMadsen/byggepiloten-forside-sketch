@@ -73,6 +73,22 @@
               <label for="p-title">Kort titel</label>
               <input id="p-title" type="text" value="Maler badeværelse" readonly />
             </div>
+            <section class="field-group" aria-labelledby="p-fag-title">
+              <h2 id="p-fag-title" class="field-group__title">Hvilke fag skal der til?</h2>
+              <p class="field-group__hint">Vælg ét eller flere fag, hvis opgaven kræver mere end ét — eller Andet.</p>
+              <div class="chip-row" data-multi="true" role="group" aria-label="Fag">
+                <button type="button" class="chip is-selected" aria-pressed="true">Murer</button>
+                <button type="button" class="chip" aria-pressed="false">Tømrer</button>
+                <button type="button" class="chip" aria-pressed="false">Tagdækker</button>
+                <button type="button" class="chip" aria-pressed="false">Belægning</button>
+                <button type="button" class="chip" aria-pressed="false">Elektriker</button>
+                <button type="button" class="chip" aria-pressed="false">VVS</button>
+                <button type="button" class="chip" aria-pressed="false">Maler</button>
+                <button type="button" class="chip" aria-pressed="false">Anlægsgartner</button>
+                <button type="button" class="chip" aria-pressed="false">Isolering</button>
+                <button type="button" class="chip" aria-pressed="false">Andet</button>
+              </div>
+            </section>
             <div class="field">
               <label for="p-desc">Beskrivelse</label>
               <textarea id="p-desc" placeholder="Fx: Badeværelse ca. 6 m² — loft og vægge males. Fliser bliver. Gerne start om 3–4 uger." readonly>Badeværelse ca. 6 m². Loft og vægge skal males. Fliser bliver. Gerne start inden for 3–4 uger.</textarea>
@@ -87,23 +103,6 @@
                 <label for="p-city">By</label>
                 <input id="p-city" type="text" value="Odense" readonly />
               </div>
-            </div>
-          </section>
-
-          <section class="field-group" aria-labelledby="p-fag-title">
-            <h2 id="p-fag-title" class="field-group__title">Hvilke fag skal der til?</h2>
-            <p class="field-group__hint">Vælg ét eller flere fag, hvis opgaven kræver mere end ét — eller Andet.</p>
-            <div class="chip-row" data-multi="true" role="group" aria-label="Fag">
-              <button type="button" class="chip is-selected" aria-pressed="true">Murer</button>
-              <button type="button" class="chip" aria-pressed="false">Tømrer</button>
-              <button type="button" class="chip" aria-pressed="false">Tagdækker</button>
-              <button type="button" class="chip" aria-pressed="false">Belægning</button>
-              <button type="button" class="chip" aria-pressed="false">Elektriker</button>
-              <button type="button" class="chip" aria-pressed="false">VVS</button>
-              <button type="button" class="chip" aria-pressed="false">Maler</button>
-              <button type="button" class="chip" aria-pressed="false">Anlægsgartner</button>
-              <button type="button" class="chip" aria-pressed="false">Isolering</button>
-              <button type="button" class="chip" aria-pressed="false">Andet</button>
             </div>
           </section>
 
