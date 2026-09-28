@@ -1,402 +1,198 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>SKETCH — ByggePiloten forside</title>
+  <title>ByggePiloten — forhåndsvisning af chat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bp-bg: #f4f7fb;
+      --bp-ink: #0c1929;
+      --bp-muted: #5c6b7f;
+      --bp-border: #e3eaf3;
+      --bp-sky: #e8f3ff;
+      --bp-blue: #1a6fd4;
+      --bp-blue-dark: #1256a8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      background: #e7eef6;
+      color: var(--bp-ink);
+    }
+    header.page {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 0.25rem;
+    }
+    header.page h1 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+    header.page p { margin: 0; color: var(--bp-muted); font-size: 0.92rem; }
+    .row {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 800px) {
+      .row { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+    .label { font-size: 0.8rem; font-weight: 700; color: var(--bp-muted); margin: 0 0 0.4rem; }
+    .phone {
+      background: var(--bp-bg);
+      border: 1px solid var(--bp-border);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(12, 25, 41, 0.12);
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      border-bottom: 1px solid var(--bp-border);
+    }
+    .mark {
+      width: 2rem; height: 2rem; border-radius: 0.7rem;
+      background: var(--bp-blue); color: #fff;
+      display: grid; place-items: center; font-weight: 700;
+    }
+    .top strong { display: block; font-size: 0.95rem; }
+    .top span { color: var(--bp-muted); font-size: 0.75rem; }
+    .thread { padding: 0.9rem; display: flex; flex-direction: column; gap: 0.55rem; min-height: 280px; }
+    .bubble {
+      max-width: 86%;
+      background: #fff;
+      border: 1px solid var(--bp-border);
+      border-radius: 16px;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.92rem;
+    }
+    .bubble.me { align-self: flex-end; background: var(--bp-sky); border-color: transparent; }
+    .who { font-size: 0.7rem; color: var(--bp-muted); margin-bottom: 0.15rem; }
+    .photo {
+      width: 148px; height: 96px; border-radius: 12px;
+      background:
+        linear-gradient(160deg, #d7c4a3 0%, #efe6d6 40%, #b9c7d6 100%);
+      border: 1px solid var(--bp-border);
+    }
+    .hint {
+      margin: 0 0.9rem 0.7rem;
+      background: #fff;
+      border: 1px solid #c9dff6;
+      border-radius: 14px;
+      padding: 0.7rem 0.75rem;
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+    .hint.warn { border-color: #f0d7b0; background: #fffaf3; }
+    .actions { display: flex; gap: 0.4rem; margin-top: 0.55rem; }
+    button {
+      border-radius: 999px;
+      border: 1px solid var(--bp-border);
+      background: #fff;
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.7rem;
+    }
+    button.primary { background: var(--bp-blue); color: #fff; border-color: var(--bp-blue); }
+    .composer {
+      display: flex; gap: 0.4rem; align-items: center;
+      margin: 0 0.9rem 0.9rem;
+      background: #fff;
+      border: 1px solid var(--bp-border);
+      border-radius: 14px;
+      padding: 0.45rem;
+    }
+    .composer .field {
+      flex: 1;
+      font-size: 0.88rem;
+      color: var(--bp-ink);
+    }
+    .composer .field em { color: var(--bp-muted); font-style: normal; }
+    .send {
+      background: var(--bp-blue);
+      color: #fff;
+      border: 0;
+      border-radius: 10px;
+      font-weight: 700;
+      padding: 0.45rem 0.7rem;
+    }
+    .note { font-size: 0.75rem; color: var(--bp-muted); padding: 0 1.1rem 0.9rem; }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <a class="logo" href="index.html" aria-label="ByggePiloten">
-      <img class="logo-mark" src="icon-192.svg" width="36" height="36" alt="" />
-      <span class="logo-text">Bygge<wbr>Piloten</span>
-    </a>
-    <nav class="site-nav" aria-label="Sketch-sider">
-      <a class="nav-link is-active" href="index.html">Forside</a>
-      <a class="nav-link" href="opret-privat.html">Privat</a>
-      <a class="nav-link" href="opret-firma.html">Firma</a>
-      <a class="nav-link" href="fremtid.html">Fremtid (kladde)</a>
-      <a class="nav-link" href="aendring-firma.html">Ændringsaftale (kladde)</a>
-    </nav>
-    <div class="header-actions">
-      <a class="header-textlink" href="opret-firma.html">Firma</a>
-      <a class="btn btn--login btn--sm" href="https://byggepiloten.dk/login">Log ind</a>
-      <a class="btn btn--sm header-cta" href="opret-privat.html">Skriv opgaven</a>
-    </div>
+  <header class="page">
+    <h1>Forhåndsvisning — ikke live</h1>
+    <p>Sådan kan chatten se ud, før et bud er accepteret. Beskeden sendes stadig. Linjen kan fjernes.</p>
   </header>
-
-  <main id="top">
-    <!-- HERO with layered depth -->
-    <section class="hero scene" data-scene="hero">
-      <div class="parallax" aria-hidden="true">
-        <div class="layer layer--sky" data-depth="0.05"></div>
-        <div class="layer layer--haze" data-depth="0.12"></div>
-        <div class="layer layer--hills-far" data-depth="0.22"></div>
-        <div class="layer layer--hills-mid" data-depth="0.38"></div>
-        <div class="layer layer--ground" data-depth="0.55"></div>
-        <canvas class="fog-canvas" id="fog" width="800" height="450"></canvas>
-      </div>
-      <div class="hero__content">
-        <p class="eyebrow">Hvor private finder håndværkere</p>
-        <h1>Byg noget ordentligt.<br />Få bud — <em>gratis</em>.</h1>
-        <p class="lede">
-          Beskriv din opgave med dine egne ord. Lokale firmaer byder —
-          uforpligtende, uden abonnement.
-        </p>
-        <div class="hero__ctas">
-          <a class="btn btn--primary" href="opret-privat.html">Skriv opgaven</a>
-          <a class="btn btn--ghost" href="opret-firma.html">Jeg er håndværkerfirma</a>
-          <a class="btn btn--ghost" href="https://byggepiloten.dk/guide">Læs hvordan det virker</a>
-        </div>
-        <p class="micro">Gratis · uforpligtende · ingen abonnement</p>
-      </div>
-    </section>
-
-    <!-- Sticky narrative: problem → skriv → få bud (horizontal snap carousel) · scroll cue under card -->
-    <section class="story" id="saadan-virker-det" aria-label="Sådan virker det">
-      <div class="story__sticky">
-        <div class="story__visual" data-beat="0">
-          <div class="card-stack" role="region" aria-label="Historie-kort — swipe sidelæns" tabindex="0">
-            <article class="beat-card beat-card--problem is-active" data-for="0">
-              <div class="beat-icon" aria-hidden="true">
-                <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2"/><path d="M22 38c3-6 8-10 10-10s7 4 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="26" r="2.5" fill="currentColor"/><circle cx="40" cy="26" r="2.5" fill="currentColor"/></svg>
-              </div>
-              <h2>Problemet</h2>
-              <p>Du skal have malet, lagt fliser eller skiftet et tag. Ringeture og uigennemskuelige tilbud tager tid — og tilliden følger ikke altid med.</p>
-            </article>
-            <article class="beat-card beat-card--skriv" data-for="1">
-              <div class="beat-icon" aria-hidden="true">
-                <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="10" width="36" height="44" rx="4" stroke="currentColor" stroke-width="2"/><path d="M22 22h20M22 30h16M22 38h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M40 44l6 2-2 6 8-10-6-2-6 4z" fill="currentColor" opacity=".85"/></svg>
-              </div>
-              <h2>Skriv opgaven</h2>
-              <p>Fortæl hvad der skal laves — i det sprog du bruger derhjemme. Ingen skemaer, der føles som en ansøgning.</p>
-            </article>
-            <article class="beat-card beat-card--bud" data-for="2">
-              <div class="beat-icon" aria-hidden="true">
-                <svg viewBox="0 0 64 64" fill="none"><path d="M12 40V24l20-10 20 10v16l-20 10-20-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M32 14v36M12 24l20 10 20-10" stroke="currentColor" stroke-width="2"/><circle cx="48" cy="18" r="10" fill="var(--bp-accent)" stroke="var(--bp-ink)" stroke-width="1.5"/><text x="48" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="var(--bp-ink)">✓</text></svg>
-              </div>
-              <h2>Få bud</h2>
-              <p>Firmaer i dit område svarer med bud. Det er gratis og uforpligtende at modtage dem — og du vælger selv, hvem du vil snakke videre med.</p>
-            </article>
+  <div class="row">
+    <section>
+      <p class="label">1. De sender et billede, mens de kigger på opgaven</p>
+      <div class="phone">
+        <div class="top">
+          <div class="mark">BP</div>
+          <div>
+            <strong>Indendørs maling</strong>
+            <span>Før bud er accepteret</span>
           </div>
-          <div class="beat-progress" role="tablist" aria-label="Skift historie-kort">
-            <button type="button" data-i="0" class="is-on" aria-label="Problemet" aria-current="true"></button>
-            <button type="button" data-i="1" aria-label="Skriv opgaven"></button>
-            <button type="button" data-i="2" aria-label="Få bud"></button>
+        </div>
+        <div class="thread">
+          <div class="bubble">
+            <div class="who">Kp service · firma</div>
+            Her er væggen, som den ser ud nu.
+            <div class="photo" role="img" aria-label="Eksempel på billede af en væg"></div>
           </div>
-          <a class="scroll-cue" href="#atmosphere" data-scroll-to=".atmosphere" aria-label="Scroll videre">
-            <span class="scroll-cue__arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-            </span>
-            <span class="scroll-cue__label">Scroll</span>
-          </a>
         </div>
-      </div>
-      <div class="story__rail">
-        <div class="story__beat" data-beat="0">
-          <p class="rail-label">01</p>
-          <h3>Det er svært at finde den rigtige</h3>
-          <p>Anbefalinger fra naboen er guld værd — men når opgaven er specifik, bliver markedet hurtigt uoverskueligt.</p>
+        <div class="hint">
+          Billedet bliver på opgaven, mens I kigger på den. I kan begge finde det igen her.
+          <div class="actions">
+            <button class="primary" type="button">Forstået</button>
+            <button type="button">Senere</button>
+          </div>
         </div>
-        <div class="story__beat" data-beat="1">
-          <p class="rail-label">02</p>
-          <h3>Én beskrivelse er nok</h3>
-          <p>Skriv opgaven én gang. Vi sørger for, at den når frem til firmaer, der faktisk laver den slags arbejde.</p>
-          <a class="btn btn--primary" href="opret-privat.html">Skriv opgaven</a>
+        <div class="composer">
+          <div class="field"><em>Skriv en besked</em></div>
+          <button class="send" type="button">Send</button>
         </div>
-        <div class="story__beat" data-beat="2">
-          <p class="rail-label">03</p>
-          <h3>Bud — gratis og uforpligtende</h3>
-          <p>Du betaler ikke for at få tilbud. Ingen abonnement. Vælg i ro og mag, eller lad være.</p>
-        </div>
+        <p class="note">Forstået gemmer valget. Senere skjuler linjen kun denne gang.</p>
       </div>
     </section>
-
-    <!-- Atmosphere strip -->
-    <section class="atmosphere" id="atmosphere">
-      <div class="atmosphere__inner">
-        <blockquote class="atmosphere__quote">
-          <p>«Vi bygger ikke hype. Vi bygger en markedsplads, hvor private og håndværkere mødes — jordnært og uden unødvendigt støj.»</p>
-        </blockquote>
-        <ul class="pillars">
-          <li class="pillars__card">
-            <span class="pillars__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 21s-7-5.2-7-11a7 7 0 1 1 14 0c0 5.8-7 11-7 11z"/>
-                <circle cx="12" cy="10" r="2.5"/>
-              </svg>
-            </span>
-            <div class="pillars__text">
-              <strong>Lokalt</strong>
-              <span>Firmaer i nærheden af dig</span>
-            </div>
-          </li>
-          <li class="pillars__card">
-            <span class="pillars__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M8.5 12.5l2.5 2.5 4.5-5"/>
-              </svg>
-            </span>
-            <div class="pillars__text">
-              <strong>Gratis</strong>
-              <span>Uforpligtende · ingen abonnement</span>
-            </div>
-          </li>
-          <li class="pillars__card">
-            <span class="pillars__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 7h8M16 7h4"/>
-                <circle cx="14" cy="7" r="2.5"/>
-                <path d="M4 17h4M10 17h10"/>
-                <circle cx="8" cy="17" r="2.5"/>
-              </svg>
-            </span>
-            <div class="pillars__text">
-              <strong>Din opgave</strong>
-              <span>Du styrer tempoet</span>
-            </div>
-          </li>
-        </ul>
+    <section>
+      <p class="label">2. De skriver telefon, mail eller adresse</p>
+      <div class="phone">
+        <div class="top">
+          <div class="mark">BP</div>
+          <div>
+            <strong>Indendørs maling</strong>
+            <span>Før bud er accepteret</span>
+          </div>
+        </div>
+        <div class="thread">
+          <div class="bubble me">
+            <div class="who">Dig · kunde</div>
+            Du kan kontakte mig på 55 20 01 23
+          </div>
+        </div>
+        <div class="hint warn">
+          I kan blive her, mens I overvejer opgaven. Telefon og adresse deles, når kunden accepterer buddet.
+          <div class="actions">
+            <button class="primary" type="button">Forstået</button>
+            <button type="button">Senere</button>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="field">Du kan kontakte mig på 55 20 01 23</div>
+          <button class="send" type="button">Send</button>
+        </div>
+        <p class="note">Vises kun når teksten har nummer, mail eller gadeadresse. Beskeden blokeres ikke.</p>
       </div>
     </section>
-
-    <!-- Top pr. fag (sketch mock — TradeLeaderboards vibe) -->
-    <section class="top-fag" aria-labelledby="top-fag-heading">
-      <div class="top-fag__inner">
-        <div class="top-fag__head">
-          <svg class="top-fag__trophy" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/>
-            <path d="M17 4h2a2 2 0 0 1 0 4h-2M7 4H5a2 2 0 0 0 0 4h2"/>
-          </svg>
-          <h2 id="top-fag-heading">Top pr. fag</h2>
-        </div>
-        <p class="top-fag__sub">Firmaer inden for hvert fag — anmeldt-mærke vises ved 3+ anmeldelser</p>
-        <p class="top-fag__sketch-note">Sketch-eksempel · mock-data · ikke live rangering</p>
-
-        <div class="top-fag__grid">
-          <article class="trade-card">
-            <h3>Murer</h3>
-            <p class="trade-card__sub">Murværk, puds, fliser, tegltag og fundament</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Nordkysten Mur &amp; Flise</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,8</span> <span>(12)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Øresund Murværk</a>
-                  <div class="rank__meta"><span class="score">4,6</span> <span>(7)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Byens Flisemestre</a>
-                  <div class="rank__meta"><span class="score">4,4</span> <span>(4)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-
-          <article class="trade-card">
-            <h3>Tømrer</h3>
-            <p class="trade-card__sub">Tagkonstruktion, træterrasse, gulv, døre og trækonstruktioner</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Træ &amp; Tag ApS</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,9</span> <span>(18)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Håndværk Nordvest</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,7</span> <span>(9)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Spær &amp; Terrasse</a>
-                  <div class="rank__meta"><span class="score">4,5</span> <span>(5)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-
-          <article class="trade-card">
-            <h3>VVS</h3>
-            <p class="trade-card__sub">Vand, varme, afløb og badeværelse</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Vand &amp; Varme Sjælland</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,8</span> <span>(15)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Badeværelsesproffen</a>
-                  <div class="rank__meta"><span class="score">4,6</span> <span>(6)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Lokal Rør &amp; Radiator</a>
-                  <div class="rank__meta"><span class="score">4,3</span> <span>(3)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-
-          <article class="trade-card">
-            <h3>Elektriker</h3>
-            <p class="trade-card__sub">El-installation, tavle, belysning og fejlsøgning</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Strøm &amp; Sikring ApS</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,9</span> <span>(21)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">El-mesteren Køge</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,7</span> <span>(11)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Lys &amp; Tavle</a>
-                  <div class="rank__meta"><span class="score">4,5</span> <span>(4)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-
-          <article class="trade-card">
-            <h3>Maler</h3>
-            <p class="trade-card__sub">Inde/ude maling, tapet og spartling</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Farve &amp; Finish</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,8</span> <span>(14)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Vægge Nord</a>
-                  <div class="rank__meta"><span class="score">4,6</span> <span>(8)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Tapet &amp; Spartel</a>
-                  <div class="rank__meta"><span class="score">4,4</span> <span>(3)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-
-          <article class="trade-card">
-            <h3>Anlægsgartner</h3>
-            <p class="trade-card__sub">Have, græs, hæk, beplantning og hegn</p>
-            <ol class="trade-ranks">
-              <li>
-                <span class="rank rank--1">1</span>
-                <div class="rank__body">
-                  <a href="https://byggepiloten.dk" class="rank__name">Have &amp; Hegn ApS</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,9</span> <span>(16)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">2</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Grønne Hænder</a>
-                  <span class="anmeldt" title="3+ anmeldelser">Anmeldt</span>
-                  <div class="rank__meta"><span class="score">4,7</span> <span>(10)</span></div>
-                </div>
-              </li>
-              <li>
-                <span class="rank">3</span>
-                <div class="rank__body">
-                  <a href="#" class="rank__name">Plæne &amp; Bede</a>
-                  <div class="rank__meta"><span class="score">4,5</span> <span>(5)</span></div>
-                </div>
-              </li>
-            </ol>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Soft depth CTA band -->
-    <section class="cta-band scene" data-scene="cta">
-      <div class="parallax parallax--short" aria-hidden="true">
-        <div class="layer layer--sky layer--dusk" data-depth="0.08"></div>
-        <div class="layer layer--hills-far" data-depth="0.2"></div>
-        <div class="layer layer--hills-mid" data-depth="0.35"></div>
-      </div>
-      <div class="cta-band__content">
-        <h2>Klar til at beskrive opgaven?</h2>
-        <p>Det tager et par minutter. Du får bud uden binding og uden abonnement.</p>
-        <div class="hero__ctas hero__ctas--center">
-          <a class="btn btn--primary btn--lg" href="opret-privat.html">Skriv opgaven</a>
-          <a class="btn btn--ghost btn--lg" href="opret-firma.html">Jeg er håndværkerfirma</a>
-        </div>
-        <p class="micro">Sketch-sider · live site: <a href="https://byggepiloten.dk">byggepiloten.dk</a></p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p><strong>ByggePiloten</strong> — sketch af forside med scroll-dybde</p>
-    <nav class="footer-nav" aria-label="Sketch-navigation">
-      <a href="index.html">Forside</a>
-      <a href="opret-privat.html">Opret privat</a>
-      <a href="opret-firma.html">Opret firma</a>
-      <a href="fremtid.html">Fremtid (kladde)</a>
-      <a href="aendring-firma.html">Ændringsaftale (kladde)</a>
-      <a href="https://byggepiloten.dk/guide">Sådan fungerer det</a>
-      <a href="https://byggepiloten.dk/guide/privat">Hvorfor privat</a>
-      <a href="https://byggepiloten.dk/guide/privat/brug">Brug privat</a>
-      <a href="https://byggepiloten.dk/guide/firma">Hvorfor firma</a>
-      <a href="https://byggepiloten.dk/guide/firma/brug">Brug firma</a>
-      <a href="https://byggepiloten.dk">Live site</a>
-    </nav>
-    <p class="muted">Ikke live site · baseret på commit be6a62b + BP-tema</p>
-  </footer>
-
-  <script src="script.js"></script>
+  </div>
 </body>
 </html>
